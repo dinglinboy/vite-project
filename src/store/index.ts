@@ -1,16 +1,12 @@
 import { defineStore } from 'pinia'
-import { getCoffees } from '../api/index'
 import { getCoffees } from '@/api/index'
-interface Coffee {
-  name: string
-  _id: string
-}
+import type { CoffeesResponse, Pagination } from '@/api/types/index'
 export const usePublicStore = defineStore('Public', {
   state: () => {
     return {
       counter: 0,
       limit: 10,
-      coffees: new Array<Coffee>()
+      coffees: new Array<CoffeesResponse>()
     }
   },
   getters: {
@@ -22,8 +18,8 @@ export const usePublicStore = defineStore('Public', {
     changeName() {
       this.counter++
     },
-    async getCoffees(limit: number, offset: number) {
-      const coffees = await getCoffees(limit, offset)
+    async getCoffees(pagination: Pagination) {
+      const coffees = await getCoffees(pagination)
       this.coffees = coffees
     }
   }

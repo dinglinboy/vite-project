@@ -3,4 +3,7 @@ import '@/style/index.scss'
 import App from './App.vue'
 import router from '@/router/index.ts'
 import { createPinia } from 'pinia'
-createApp(App).use(router).use(createPinia()).mount('#app')
+const app = createApp(App)
+app.use(router)
+app.use(createPinia())
+app.mount('#app')

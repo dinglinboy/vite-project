@@ -6,10 +6,10 @@ let limit = 10,
   offset = 1
 const next = () => {
   offset++
-  publicStore.getCoffees(limit, offset)
+  publicStore.getCoffees({ limit, offset })
 }
 onMounted(() => {
-  publicStore.getCoffees(limit, offset)
+  publicStore.getCoffees({ limit, offset })
 })
 </script>
 
@@ -17,7 +17,7 @@ onMounted(() => {
   <ul>
     <li v-for="item in publicStore.coffees" :key="item._id">{{ item.name }}</li>
   </ul>
-  <button @click="next">next</button>
+  <el-button @click="next" type="primary">next</el-button>
 </template>
 
 <style></style>
