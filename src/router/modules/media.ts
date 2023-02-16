@@ -1,7 +1,7 @@
 import { RouteRecordRaw } from 'vue-router'
 
 const mediaRoutes: RouteRecordRaw = {
-  path: '/media',
+  path: 'media',
   name: 'media',
   component: () => import('@/views/media/index.vue')
 }

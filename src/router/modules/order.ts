@@ -1,7 +1,7 @@
 import { RouteRecordRaw, RouterView } from 'vue-router'
 
 const orderRoutes: RouteRecordRaw = {
-  path: '/order',
+  path: 'order',
   name: 'order',
   component: RouterView,
   children: [

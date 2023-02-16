@@ -1,6 +1,6 @@
 import { RouteRecordRaw, RouterView } from 'vue-router'
 const productRoutes: RouteRecordRaw = {
-  path: '/product',
+  path: 'product',
   name: 'product',
   component: RouterView,
   children: [

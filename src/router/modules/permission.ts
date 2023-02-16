@@ -1,7 +1,7 @@
 import { RouteRecordRaw, RouterView } from 'vue-router'
 
 const permissionRoutes: RouteRecordRaw = {
-  path: '/permission',
+  path: 'permission',
   name: 'permission',
   component: RouterView,
   children: [
