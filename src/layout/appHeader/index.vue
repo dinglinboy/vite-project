@@ -1,24 +1,35 @@
 <template>
-  <div class="app-header-breadcrumb">
-    <el-icon @click="publicStore.setMenuCollapse"
-      ><Fold size="large"
-    /></el-icon>
-    <el-breadcrumb size="large" :separator-icon="ArrowRight">
-      <el-breadcrumb-item :to="{ path: '/' }">商品</el-breadcrumb-item>
-      <el-breadcrumb-item>商品列表</el-breadcrumb-item>
-    </el-breadcrumb>
+  <div class="app-header">
+    <div class="app-header-left">
+      <appFold></appFold>
+      <appBreadcrumb></appBreadcrumb>
+    </div>
+    <div class="app-header-right">
+      <appFullScreen></appFullScreen>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ArrowRight, Fold } from '@element-plus/icons-vue'
-import { usePublicStore } from '@/store'
-const publicStore = usePublicStore()
+import appBreadcrumb from './appBreadcrumb.vue'
+import appFold from './appFold.vue'
+import appFullScreen from './fullScreen.vue'
 </script>
 <style lang="scss">
-.app-header-breadcrumb {
-  display: flex;
-  align-items: center;
+.app-header {
+  width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: space-between;
+  &-left {
+    display: flex;
+    height: 100%;
+    align-items: center;
+  }
+  &-right {
+    display: flex;
+    height: 100%;
+    align-items: center;
+  }
 }
 </style>
