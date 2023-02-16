@@ -6,7 +6,6 @@
     <el-container>
       <el-header>
         <appHeader></appHeader>
-        <el-icon><FullScreen /></el-icon>
       </el-header>
       <el-main>
         <router-view></router-view>

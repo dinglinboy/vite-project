@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import appBreadcrumb from './appBreadcrumb.vue'
 import appFold from './appFold.vue'
-import appFullScreen from './fullScreen.vue'
+import appFullScreen from './appFullScreen.vue'
 </script>
 <style lang="scss">
 .app-header {
