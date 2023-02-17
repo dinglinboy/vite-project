@@ -25,8 +25,8 @@ import appHeader from './appHeader/index.vue'
     width: auto;
     background: #545c64;
   }
-  .el-header {
-    border-bottom: 1px solid #545c64;
+  .el-main {
+    background: #ddd;
   }
 }
 </style>
