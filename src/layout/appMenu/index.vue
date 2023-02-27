@@ -3,7 +3,7 @@
     active-text-color="#ffd04b"
     background-color="#545c64"
     class="el-menu-vertical-demo"
-    default-active="2"
+    :default-active="route.path"
     text-color="#fff"
     :collapse="publicStore.isCollapse"
     router
@@ -53,6 +53,8 @@ import {
   BellFilled
 } from '@element-plus/icons-vue'
 import { usePublicStore } from '@/store'
+import { useRoute } from 'vue-router'
+const route = useRoute()
 const publicStore = usePublicStore()
 </script>
 <style scoped>

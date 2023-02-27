@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 <template>
   <div class="product-list">
     <el-form :model="form" inline ref="formRef">
@@ -21,25 +21,42 @@ import { reactive } from 'vue';
     <el-table-column prop="productName" label="商品名称" />
     <el-table-column prop="classify" label="商品分类" />
   </el-table>
-  <el-pagination background layout="prev, pager, next" :total="1000" />
+  <el-pagination
+    background
+    layout="prev, pager, next, total"
+    :total="pagination.total"
+    :page-size="pagination.pageSize"
+    v-model:current-page="pagination.pageNum"
+  />
 </template>
 <script lang="ts" setup>
 import { FormInstance } from 'element-plus'
 import { reactive, ref } from 'vue'
+import { Pagination } from '../../../util/type'
 const form = reactive({
   productName: '',
   classify: ''
 })
-const tableData = reactive([
-  {
+const tableData = reactive(
+  new Array(10).fill({
     productName: 'coffee1',
     classify: '香'
-  }
-])
+  })
+)
+const pagination = reactive<Pagination>({
+  pageNum: 1,
+  pageSize: 10,
+  total: 100
+})
 const formRef = ref<FormInstance>()
 const resetForm = (elForm: FormInstance | undefined) => {
   if (!elForm) return
   elForm.resetFields()
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss">
+.el-pagination {
+  margin-top: 20px;
+  justify-content: center;
+}
+</style>

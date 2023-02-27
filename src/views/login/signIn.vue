@@ -49,6 +49,7 @@ import { User, Lock } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
+import { setUserInfo } from '@/util/util'
 const router = useRouter()
 // 设置表单
 const form = reactive({
@@ -77,6 +78,11 @@ const submit = async (formEl: FormInstance | undefined) => {
   loading.value = true
   await formEl.validate((valid) => {
     if (valid) {
+      setUserInfo({
+        username: form.username,
+        checked: form.checked,
+        jwt_token: 'alkhdjklas'
+      })
       router.push('/')
     } else {
       resetForm(ruleFormRef.value)

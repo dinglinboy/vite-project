@@ -6,6 +6,7 @@ import mediaRoutes from './modules/media'
 import permissionRoutes from './modules/permission'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { getUserInfo } from '@/util/util'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
@@ -43,6 +44,15 @@ const router = createRouter({
 })
 router.beforeEach(() => {
   nprogress.start()
+  // const { jwt_token } = getUserInfo()
+  // if ('/login' !== to.path && jwt_token) {
+  //   next()
+  // } else if ('/login' === to.path) {
+  //   next()
+  // } else {
+  //   router.push('/login')
+  //   next()
+  // }
 })
 router.afterEach(() => {
   nprogress.done()

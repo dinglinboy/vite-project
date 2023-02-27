@@ -6,6 +6,7 @@
     </div>
     <div class="app-header-right">
       <appFullScreen></appFullScreen>
+      <appProfile></appProfile>
     </div>
   </div>
 </template>
@@ -14,6 +15,7 @@
 import appBreadcrumb from './appBreadcrumb.vue'
 import appFold from './appFold.vue'
 import appFullScreen from './appFullScreen.vue'
+import appProfile from './appProfile.vue'
 </script>
 <style lang="scss">
 .app-header {
@@ -25,11 +27,13 @@ import appFullScreen from './appFullScreen.vue'
     display: flex;
     height: 100%;
     align-items: center;
+    gap: 10px;
   }
   &-right {
     display: flex;
     height: 100%;
     align-items: center;
+    gap: 10px;
   }
 }
 </style>
