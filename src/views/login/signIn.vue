@@ -58,8 +58,8 @@ import { login } from '@/api/index'
 const router = useRouter()
 // 设置表单
 const form = reactive({
-    username: 'dinglin121',
-    password: '12345678',
+    username: '',
+    password: '',
     checked: false
 })
 const ruleFormRef = ref<FormInstance>()

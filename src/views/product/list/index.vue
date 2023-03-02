@@ -1,4 +1,3 @@
-import { reactive, computed } from 'vue';
 <template>
     <div class="product-list">
         <el-form :model="form" inline ref="formRef">
@@ -25,8 +24,8 @@ import { reactive, computed } from 'vue';
         background
         layout="prev, pager, next, total"
         :total="pagination.total"
-        :page-size="pagination.pageSize"
-        v-model:current-page="pagination.pageNum"
+        :page-size="pagination.offset"
+        v-model:current-page="pagination.limit"
     />
 </template>
 <script lang="ts" setup>
@@ -40,8 +39,8 @@ const form = reactive({
 })
 let tableData = ref([])
 const pagination = reactive<Pagination>({
-    pageNum: 1,
-    pageSize: 10,
+    offset: 1,
+    limit: 10,
     total: 0
 })
 const formRef = ref<FormInstance>()
@@ -51,8 +50,8 @@ const resetForm = (elForm: FormInstance | undefined) => {
 }
 onMounted(async () => {
     const res = await getCoffees({
-        offset: pagination.pageNum,
-        limit: pagination.pageSize
+        offset: pagination.offset,
+        limit: pagination.limit
     })
     tableData.value = res
 })

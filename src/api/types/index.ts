@@ -6,11 +6,23 @@ export interface CoffeesResponse {
 }
 
 export interface Pagination {
-    limit: number
-    offset: number
+    pageSize: number
+    pageNum: number
 }
 
 export interface User {
     username: string
     password: string
+}
+
+export interface ClassifySearch {
+    name?: string
+    pageSize?: number
+    pageNum?: number
+}
+
+export interface Result {
+    code?: number
+    message?: string
+    result?: [] | string | object | null | boolean | string
 }
