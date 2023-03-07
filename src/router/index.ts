@@ -8,53 +8,69 @@ import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getUserInfo } from '@/util/util'
 const routes: RouteRecordRaw[] = [
-  {
-    path: '/',
-    component: appLayout,
-    children: [
-      {
-        path: '',
-        name: 'home',
+    {
+        path: '/',
+        component: appLayout,
+        children: [
+            {
+                path: '',
+                name: 'home',
+                meta: {
+                    title: '首页'
+                },
+                component: () => import('../views/home/index.vue')
+            },
+            productRoutes,
+            orderRoutes,
+            mediaRoutes,
+            permissionRoutes
+        ]
+    },
+    {
+        path: '/login',
+        name: 'login',
         meta: {
-          title: '首页'
+            noAuth: true,
+            title: '登录'
         },
-        component: () => import('../views/home/index.vue')
-      },
-      productRoutes,
-      orderRoutes,
-      mediaRoutes,
-      permissionRoutes
-    ]
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('../views/login/signIn.vue')
-  },
-  {
-    path: '/signUp',
-    name: 'signUp',
-    component: () => import('../views/login/signUp.vue')
-  }
+        component: () => import('../views/login/signIn.vue')
+    },
+    {
+        path: '/signUp',
+        name: 'signUp',
+        meta: {
+            noAuth: true,
+            title: '注册'
+        },
+        component: () => import('../views/login/signUp.vue')
+    }
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
-  routes
+    history: createWebHashHistory(),
+    routes
 })
-router.beforeEach(() => {
-  nprogress.start()
-  // const { jwt_token } = getUserInfo()
-  // if ('/login' !== to.path && jwt_token) {
-  //   next()
-  // } else if ('/login' === to.path) {
-  //   next()
-  // } else {
-  //   router.push('/login')
-  //   next()
-  // }
+const publicPage = ['login', 'signUp']
+router.beforeEach((to, from, next) => {
+    nprogress.start()
+    const { jwt_token } = getUserInfo()
+    if (jwt_token) {
+        next()
+    } else {
+        if (to.meta.noAuth) {
+            //防止next无限循环的问题
+            next()
+            return
+        }
+        next({
+            path: '/login',
+            query: {
+                redirect: to.fullPath
+            }
+        })
+    }
 })
 router.afterEach(() => {
-  nprogress.done()
+    nprogress.done()
 })
 export default router

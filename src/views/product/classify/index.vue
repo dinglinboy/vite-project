@@ -45,11 +45,11 @@
         layout="prev, pager, next, total"
         :total="pagination.total"
         :page-size="pagination.pageSize"
+        @current-change="queryClassifyByOption"
         v-model:current-page="pagination.pageNum"
     />
 </template>
 <script lang="ts" setup>
-import 'element-plus/es/components/message/style/css'
 import { Delete as iconDelete, Edit as iconEdit } from '@element-plus/icons-vue'
 import { FormInstance, ElMessage, ElMessageBox } from 'element-plus'
 import { onMounted, reactive, ref } from 'vue'
@@ -67,13 +67,15 @@ const form = reactive({
 let tableData = ref([])
 const pagination = reactive<Pagination>({
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 5,
     total: 0
 })
 const formRef = ref<FormInstance>()
 const resetForm = (elForm: FormInstance | undefined) => {
     if (!elForm) return
     elForm.resetFields()
+    pagination.pageNum = 1
+    pagination.total = 0
     queryClassifyByOption()
 }
 onMounted(async () => {

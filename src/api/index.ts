@@ -12,8 +12,23 @@ export const getCoffees = (param: Pagination) => {
         `/coffees?limit=${limit}&offset=${offset}`
     )
 }
+
+/**
+ * 用户登录
+ * @param param
+ * @returns
+ */
 export const login = (param: User) => {
     return axios.post<Result>(`/auth/admin/signIn`, param)
+}
+
+/**
+ * 用户注册账号
+ * @param param
+ * @returns
+ */
+export const register = (param: User) => {
+    return axios.post<Result>(`/auth/admin/signUp`, param)
 }
 
 /**

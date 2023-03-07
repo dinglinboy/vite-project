@@ -11,6 +11,7 @@
         >
             <el-form-item prop="username">
                 <el-input
+                    class="user-inp"
                     v-model="form.username"
                     type="text"
                     size="large"
@@ -20,6 +21,7 @@
             </el-form-item>
             <el-form-item prop="password">
                 <el-input
+                    class="user-inp"
                     v-model="form.password"
                     :prefix-icon="Lock"
                     size="large"
@@ -27,12 +29,13 @@
                     placeholder="请输入密码"
                 ></el-input>
             </el-form-item>
-            <el-form-item>
+            <el-form-item class="flexSpaceBetween">
                 <el-checkbox
                     v-model="form.checked"
                     label="记住密码"
                     size="large"
                 />
+                <span @click="jumpToRegister" class="cursor">注册账号</span>
             </el-form-item>
             <el-form-item>
                 <el-button
@@ -58,8 +61,8 @@ import { login } from '@/api/index'
 const router = useRouter()
 // 设置表单
 const form = reactive({
-    username: '',
-    password: '',
+    username: 'dinglin12',
+    password: '12345678',
     checked: false
 })
 const ruleFormRef = ref<FormInstance>()
@@ -77,7 +80,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
     formEl?.resetFields()
 }
 
-// 提交
+// 提交登录信息
 const submit = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     loading.value = true
@@ -91,7 +94,8 @@ const submit = async (formEl: FormInstance | undefined) => {
                     checked: form.checked,
                     jwt_token: res.jwt_token
                 })
-                router.push('/')
+                const { redirect } = router.currentRoute.value.query
+                router.push(redirect || '/')
             })
         } else {
             resetForm(ruleFormRef.value)
@@ -99,9 +103,14 @@ const submit = async (formEl: FormInstance | undefined) => {
         loading.value = false
     })
 }
+// 跳转注册账号界面
+const jumpToRegister = () => {
+    router.push('/signUp')
+}
 </script>
 <style lang="scss">
 .login-page {
+    font-size: 18px;
     box-sizing: border-box;
     width: 100vw;
     height: 100vh;
@@ -121,13 +130,26 @@ const submit = async (formEl: FormInstance | undefined) => {
         margin: auto;
         padding: 20px;
         border-radius: 5px;
-        width: 300px;
+        width: 500px;
         background: #fff;
         .user-inp {
-            margin-bottom: 20px;
+            height: 50px;
+            font-size: 18px;
+            .el-input__icon {
+                font-size: 18px;
+            }
         }
         .submit {
+            height: 50px;
             width: 100%;
+            font-size: 18px;
+        }
+        .flexSpaceBetween {
+            .el-form-item__content {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
         }
     }
 }
