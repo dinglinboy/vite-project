@@ -24,8 +24,8 @@
         background
         layout="prev, pager, next, total"
         :total="pagination.total"
-        :page-size="pagination.offset"
-        v-model:current-page="pagination.limit"
+        :page-size="pagination.pageNum"
+        v-model:current-page="pagination.pageSize"
     />
 </template>
 <script lang="ts" setup>
@@ -33,14 +33,15 @@ import { FormInstance } from 'element-plus'
 import { onMounted, reactive, ref } from 'vue'
 import { Pagination } from '../../../util/type'
 import { getCoffees } from '@/api/index'
+import { CoffeesResponse } from '@/api/types'
 const form = reactive({
     productName: '',
     classify: ''
 })
-let tableData = ref([])
+let tableData = ref<CoffeesResponse[]>([])
 const pagination = reactive<Pagination>({
-    offset: 1,
-    limit: 10,
+    pageNum: 1,
+    pageSize: 10,
     total: 0
 })
 const formRef = ref<FormInstance>()
@@ -49,9 +50,9 @@ const resetForm = (elForm: FormInstance | undefined) => {
     elForm.resetFields()
 }
 onMounted(async () => {
-    const res = await getCoffees({
-        offset: pagination.offset,
-        limit: pagination.limit
+    const res: CoffeesResponse[] = await getCoffees({
+        pageNum: pagination.pageNum,
+        pageSize: pagination.pageSize
     })
     tableData.value = res
 })

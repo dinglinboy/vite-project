@@ -26,3 +26,23 @@ export interface Result {
     message?: string
     result?: [] | string | object | null | boolean | string
 }
+
+export interface ClassifyResponse {
+    code: number
+    message: string
+    total: number
+    result: []
+}
+
+export interface getUsersResponse {
+    code: number
+    message: string
+    total: number
+    result: User[]
+}
+
+export interface getUsersDto {
+    username: string
+    pageNum: number
+    pageSize: number
+}

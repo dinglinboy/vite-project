@@ -31,6 +31,14 @@ const permissionRoutes: RouteRecordRaw = {
                 title: '权限规则'
             },
             component: () => import('@/views/permission/rule/index.vue')
+        },
+        {
+            path: 'user',
+            name: 'permission-user',
+            meta: {
+                title: '用户管理'
+            },
+            component: () => import('@/views/permission/user/index.vue')
         }
     ]
 }

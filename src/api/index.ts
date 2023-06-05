@@ -2,14 +2,15 @@ import axios from '@/util/axios'
 import {
     ClassifySearch,
     CoffeesResponse,
+    ClassifyResponse,
     Pagination,
     Result,
     User
 } from '@/api/types/index'
 export const getCoffees = (param: Pagination) => {
-    const { limit, offset } = param
-    return axios.get<CoffeesResponse[]>(
-        `/coffees?limit=${limit}&offset=${offset}`
+    const { pageNum, pageSize } = param
+    return axios.get<any, CoffeesResponse[]>(
+        `/coffees?limit=${pageSize}&offset=${pageNum}`
     )
 }
 
@@ -36,8 +37,8 @@ export const register = (param: User) => {
  * @param param
  * @returns
  */
-export const getClassifyList = (param: ClassifySearch) => {
-    return axios.get<Result>('/classify', { params: param })
+export const getClassifyList = (params: ClassifySearch) => {
+    return axios.get<any, ClassifyResponse>('/classify', { params })
 }
 
 /**
@@ -46,7 +47,7 @@ export const getClassifyList = (param: ClassifySearch) => {
  * @returns
  */
 export const removeClassifyById = (id: string) => {
-    return axios.delete<Result>(`/classify/${id}`)
+    return axios.delete<any, Result>(`/classify/${id}`)
 }
 
 /**

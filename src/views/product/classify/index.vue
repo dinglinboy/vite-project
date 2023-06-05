@@ -61,6 +61,7 @@ import {
     updateClassifyApi
 } from '@/api/index'
 import type { Action } from 'element-plus'
+import { ClassifyResponse, Result } from '@/api/types'
 const form = reactive({
     classifyName: ''
 })
@@ -87,7 +88,7 @@ onMounted(async () => {
 const queryClassifyByOption = async () => {
     const { pageNum, pageSize } = pagination
     const { classifyName } = form
-    const res = await getClassifyList({
+    const res: ClassifyResponse = await getClassifyList({
         pageNum,
         pageSize,
         name: classifyName + ''
@@ -105,7 +106,9 @@ const removeClassify = async (row: { id: string }) => {
         confirmButtonText: '确定',
         callback: async (action: Action) => {
             if (action === 'confirm') {
-                const { message, code } = await removeClassifyById(row.id)
+                const { message, code }: Result = await removeClassifyById(
+                    row.id
+                )
                 ElMessage.closeAll()
                 if (code === 0) {
                     queryClassifyByOption()

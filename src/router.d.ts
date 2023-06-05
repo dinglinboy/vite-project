@@ -1,7 +1,7 @@
 import 'vue-router'
 
 declare module 'vue-router' {
-  interface RouteMeta {
-    title: true
-  }
+    interface RouteMeta {
+        title: true
+    }
 }
