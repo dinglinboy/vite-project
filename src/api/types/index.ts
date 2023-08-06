@@ -27,6 +27,8 @@ export interface Result {
     result?: [] | string | object | null | boolean | string
 }
 
+export type UserInfoResult = Result & { jwt_token: string }
+
 export interface ClassifyResponse {
     code: number
     message: string

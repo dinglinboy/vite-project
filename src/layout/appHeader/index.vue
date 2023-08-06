@@ -1,14 +1,14 @@
 <template>
-  <div class="app-header">
-    <div class="app-header-left">
-      <appFold></appFold>
-      <appBreadcrumb></appBreadcrumb>
+    <div class="app-header">
+        <div class="app-header-left">
+            <appFold></appFold>
+            <appBreadcrumb></appBreadcrumb>
+        </div>
+        <div class="app-header-right">
+            <appFullScreen></appFullScreen>
+            <appProfile></appProfile>
+        </div>
     </div>
-    <div class="app-header-right">
-      <appFullScreen></appFullScreen>
-      <appProfile></appProfile>
-    </div>
-  </div>
 </template>
 
 <script lang="ts" setup>
@@ -19,21 +19,21 @@ import appProfile from './appProfile.vue'
 </script>
 <style lang="scss">
 .app-header {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  &-left {
-    display: flex;
+    width: 100%;
     height: 100%;
-    align-items: center;
-    gap: 10px;
-  }
-  &-right {
     display: flex;
-    height: 100%;
-    align-items: center;
-    gap: 10px;
-  }
+    justify-content: space-between;
+    &-left {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        gap: 10px;
+    }
+    &-right {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        gap: 10px;
+    }
 }
 </style>

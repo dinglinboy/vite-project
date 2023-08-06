@@ -5,6 +5,7 @@ import {
     ClassifyResponse,
     Pagination,
     Result,
+    UserInfoResult,
     User
 } from '@/api/types/index'
 export const getCoffees = (param: Pagination) => {
@@ -20,7 +21,7 @@ export const getCoffees = (param: Pagination) => {
  * @returns
  */
 export const login = (param: User) => {
-    return axios.post<Result>(`/auth/admin/signIn`, param)
+    return axios.post<any, UserInfoResult>(`/auth/admin/signIn`, param)
 }
 
 /**
@@ -29,7 +30,7 @@ export const login = (param: User) => {
  * @returns
  */
 export const register = (param: User) => {
-    return axios.post<Result>(`/auth/admin/signUp`, param)
+    return axios.post<any, Result>(`/auth/admin/signUp`, param)
 }
 
 /**
@@ -57,7 +58,7 @@ export const removeClassifyById = (id: string) => {
  * @returns
  */
 export const addClassifyApi = (param: { name: string; id: string }) => {
-    return axios.post<Result>('/classify', { name: param.name })
+    return axios.post<any, Result>('/classify', { name: param.name })
 }
 
 /**
@@ -67,5 +68,7 @@ export const addClassifyApi = (param: { name: string; id: string }) => {
  * @returns
  */
 export const updateClassifyApi = (param: { name: string; id: string }) => {
-    return axios.patch<Result>(`/classify/${param.id}`, { name: param.name })
+    return axios.patch<any, Result>(`/classify/${param.id}`, {
+        name: param.name
+    })
 }

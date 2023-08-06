@@ -54,7 +54,7 @@
 <script lang="ts" setup>
 import { User, Lock } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, LocationQueryValue } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
 import { setUserInfo } from '@/util/util'
 import { login } from '@/api/index'
@@ -95,7 +95,7 @@ const submit = async (formEl: FormInstance | undefined) => {
                     jwt_token: res.jwt_token
                 })
                 const { redirect } = router.currentRoute.value.query
-                router.push(redirect || '/')
+                router.push((redirect as LocationQueryValue) || '/')
             })
         } else {
             resetForm(ruleFormRef.value)

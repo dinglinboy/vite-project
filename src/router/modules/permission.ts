@@ -4,7 +4,8 @@ const permissionRoutes: RouteRecordRaw = {
     path: 'permission',
     name: 'permission',
     meta: {
-        title: '权限'
+        title: true,
+        name: '权限'
     },
     component: RouterView,
     children: [
@@ -12,7 +13,8 @@ const permissionRoutes: RouteRecordRaw = {
             path: 'role',
             name: 'permission-role',
             meta: {
-                title: '角色'
+                title: true,
+                name: '角色'
             },
             component: () => import('@/views/permission/role/index.vue')
         },
@@ -20,7 +22,8 @@ const permissionRoutes: RouteRecordRaw = {
             path: 'admin',
             name: 'permission-admin',
             meta: {
-                title: '管理员'
+                title: true,
+                name: '管理员'
             },
             component: () => import('@/views/permission/admin/index.vue')
         },
@@ -28,7 +31,8 @@ const permissionRoutes: RouteRecordRaw = {
             path: 'rule',
             name: 'permission-rule',
             meta: {
-                title: '权限规则'
+                title: true,
+                name: '权限规则'
             },
             component: () => import('@/views/permission/rule/index.vue')
         },
@@ -36,7 +40,8 @@ const permissionRoutes: RouteRecordRaw = {
             path: 'user',
             name: 'permission-user',
             meta: {
-                title: '用户管理'
+                title: true,
+                name: '用户管理'
             },
             component: () => import('@/views/permission/user/index.vue')
         }

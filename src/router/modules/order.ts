@@ -4,7 +4,8 @@ const orderRoutes: RouteRecordRaw = {
     path: 'order',
     name: 'order',
     meta: {
-        title: '订单'
+        title: true,
+        name: '订单'
     },
     component: RouterView,
     children: [
@@ -12,7 +13,8 @@ const orderRoutes: RouteRecordRaw = {
             path: 'list',
             name: 'order-list',
             meta: {
-                title: '订单列表'
+                title: true,
+                name: '订单列表'
             },
             component: () => import('@/views/order/list/index.vue')
         }

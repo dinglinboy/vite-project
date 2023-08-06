@@ -16,7 +16,8 @@ const routes: RouteRecordRaw[] = [
                 path: '',
                 name: 'home',
                 meta: {
-                    title: '首页'
+                    title: true,
+                    name: '首页'
                 },
                 component: () => import('../views/home/index.vue')
             },
@@ -31,7 +32,8 @@ const routes: RouteRecordRaw[] = [
         name: 'login',
         meta: {
             noAuth: true,
-            title: '登录'
+            title: true,
+            name: '登录'
         },
         component: () => import('../views/login/signIn.vue')
     },
@@ -40,7 +42,8 @@ const routes: RouteRecordRaw[] = [
         name: 'signUp',
         meta: {
             noAuth: true,
-            title: '注册'
+            title: true,
+            name: '注册'
         },
         component: () => import('../views/login/signUp.vue')
     }

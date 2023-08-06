@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { getUserInfo } from './util.js'
-import router from '@/router/index.ts'
+import router from '@/router/index'
 const instance = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
     timeout: 30000

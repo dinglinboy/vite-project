@@ -4,7 +4,8 @@ const mediaRoutes: RouteRecordRaw = {
     path: 'media',
     name: 'media',
     meta: {
-        title: '媒体'
+        title: true,
+        name: '媒体'
     },
     component: () => import('@/views/media/index.vue')
 }

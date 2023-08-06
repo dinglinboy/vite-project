@@ -3,13 +3,13 @@ interface UserInfo {
     checked?: boolean
     jwt_token?: string
 }
-let userInfo: UserInfo = null
+let userInfo: UserInfo = {}
 export const setUserInfo = (info: UserInfo) => {
     localStorage.setItem('userIfno', JSON.stringify(info))
     userInfo = info
 }
 export const clearUserInfo = () => {
-    userInfo = null
+    userInfo = {}
     localStorage.removeItem('userIfno')
 }
 export const getUserInfo = () => {

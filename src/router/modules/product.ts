@@ -3,7 +3,8 @@ const productRoutes: RouteRecordRaw = {
     path: 'product',
     name: 'product',
     meta: {
-        title: '商品'
+        title: true,
+        name: '商品'
     },
     component: RouterView,
     children: [
@@ -11,7 +12,8 @@ const productRoutes: RouteRecordRaw = {
             path: 'list',
             name: 'product-list',
             meta: {
-                title: '商品列表'
+                title: true,
+                name: '商品列表'
             },
             component: () => import('@/views/product/list/index.vue')
         },
@@ -19,7 +21,8 @@ const productRoutes: RouteRecordRaw = {
             path: 'classify',
             name: 'product_classify',
             meta: {
-                title: '商品分类'
+                title: true,
+                name: '商品分类'
             },
             component: () => import('@/views/product/classify/index.vue')
         },
@@ -27,7 +30,8 @@ const productRoutes: RouteRecordRaw = {
             path: 'attr',
             name: 'product_attr',
             meta: {
-                title: '商品规格'
+                title: true,
+                name: '商品规格'
             },
             component: () => import('@/views/product/attr/index.vue')
         },
@@ -35,7 +39,8 @@ const productRoutes: RouteRecordRaw = {
             path: 'reply',
             name: 'product_reply',
             meta: {
-                title: '商品评论'
+                title: true,
+                name: '商品评论'
             },
             component: () => import('@/views/product/reply/index.vue')
         }

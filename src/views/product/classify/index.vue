@@ -131,6 +131,7 @@ const classifyModal = reactive({
     classifyName: '',
     id: ''
 })
+type ModalType = 'add' | 'edit'
 // 设置对话框类型，添加或修改
 const modalTitleMap = {
     add: {
@@ -147,11 +148,11 @@ const modalTitleMap = {
     }
 }
 const setClassifyModal = (
-    modalType: string,
+    modalType: ModalType,
     classify?: { name: string; id: string }
 ) => {
     classifyModal.modalType = modalType
-    classifyModal.modalTitle = modalTitleMap[modalType].title
+    classifyModal.modalTitle = (modalTitleMap[modalType as ModalType]).title
     classifyModal.showModal = true
     classifyModal.classifyName = ''
     classifyModal.id = ''
@@ -162,13 +163,12 @@ const setClassifyModal = (
 }
 // 提交添加分类的数据
 const submitClassify = async (modalType: string) => {
-    const { successText, failedText, api } = modalTitleMap[modalType]
+    const { successText, failedText, api } = (modalTitleMap[modalType as ModalType])
     const res = await api({
         name: classifyModal.classifyName,
         id: classifyModal.id
     })
     ElMessage.closeAll()
-    console.log(res)
     if (res.code === 0) {
         ElMessage.success(successText)
         queryClassifyByOption()
