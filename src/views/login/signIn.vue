@@ -45,7 +45,7 @@
                     type="success"
                     class="submit"
                     :loading="loading"
-                    >登陆</el-button
+                    >登录</el-button
                 >
             </el-form-item>
         </el-form>
@@ -58,11 +58,12 @@ import { useRouter, LocationQueryValue } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
 import { setUserInfo } from '@/util/util'
 import { login } from '@/api/index'
+import { ElMessage } from 'element-plus';
 const router = useRouter()
 // 设置表单
 const form = reactive({
-    username: 'dinglin12',
-    password: '12345678',
+    username: '',
+    password: '',
     checked: false
 })
 const ruleFormRef = ref<FormInstance>()
@@ -88,11 +89,15 @@ const submit = async (formEl: FormInstance | undefined) => {
         if (valid) {
             const { username, password } = form
             login({ username, password }).then((res) => {
-                console.log(res)
+                if (res.code !== 0) {
+                    ElMessage.error(res.msg)
+                    loading.value = false
+                    return
+                }
                 setUserInfo({
                     username: form.username,
                     checked: form.checked,
-                    jwt_token: res.jwt_token
+                    jwt_token: res.result.jwtToken
                 })
                 const { redirect } = router.currentRoute.value.query
                 router.push((redirect as LocationQueryValue) || '/')

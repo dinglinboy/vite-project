@@ -24,10 +24,11 @@ export interface ClassifySearch {
 export interface Result {
     code?: number
     message?: string
+    msg?: string
     result?: [] | string | object | null | boolean | string
 }
 
-export type UserInfoResult = Result & { jwt_token: string }
+export type UserInfoResult = Result & { result: { jwtToken: string } }
 
 export interface ClassifyResponse {
     code: number
@@ -36,15 +37,25 @@ export interface ClassifyResponse {
     result: []
 }
 
-export interface getUsersResponse {
-    code: number
-    message: string
-    total: number
-    result: User[]
+export interface UserListDto extends Result  {
+    result: {
+        data: User[],
+        total: number
+    }
 }
 
-export interface getUsersDto {
-    username: string
-    pageNum: number
-    pageSize: number
+export interface getUsersDto extends PagingDto {
+    username?: string
+}
+
+interface DateParamsDTO {
+    beginTime: string;
+    endTime: string;
+}
+interface PagingDto {
+    pageNum: number;
+    pageSize: number;
+    orderByColumn?: string
+    isAsc?: 'ascending' | 'descending'
+    param?: DateParamsDTO
 }

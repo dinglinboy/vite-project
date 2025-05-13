@@ -16,9 +16,8 @@
                             @click="getUserList()"
                             >查询</el-button
                         >
-                    </el-form-item>
-                    <el-form-item>
                         <el-button @click="resetHandler">重置</el-button>
+                        <el-button type="primary" @click="addHandler">新增用户</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -55,13 +54,27 @@
             @size-change="getUserList"
         />
     </el-card>
+    <el-dialog title="新增用户" v-model="formFlag">
+        <el-form ref="form" label-width="100px">
+            <el-form-item label="用户名">
+                <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
+            </el-form-item>
+            <el-form-item label="密码">
+                <el-input v-model="form.password" placeholder="请输入密码"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="submitAddUser">提交</el-button>
+            </el-form-item>
+        </el-form>
+    </el-dialog>
 </template>
 
 <script lang="ts" setup>
 import { getUsersApi } from '@/api/user'
 import { onMounted, ref, reactive } from 'vue'
-import { getUsersResponse, User } from '@/api/types/index'
+import { UserListDto, User } from '@/api/types/index'
 import dayjs from 'dayjs'
+import { ElMessage } from 'element-plus'
 // 查询条件对象
 const searchOpt = reactive({
     username: '', // 搜索用户名
@@ -84,9 +97,12 @@ const getUserList = async (pageNum = 1) => {
     searchOpt.pageNum = pageNum
     searchOpt.username = searchOpt.username.trim()
     try {
-        const res: getUsersResponse = await getUsersApi({ ...searchOpt })
-        userList.value = res.result || []
-        total.value = res.total
+        const res: UserListDto = await getUsersApi({ ...searchOpt })
+        if (res.code !== 0) {
+            return ElMessage.error(res.message)
+        }
+        userList.value = res.result.data || []
+        total.value = res.result.total
     } catch (error) {
         console.error(error)
     }
@@ -96,5 +112,19 @@ const getUserList = async (pageNum = 1) => {
 const resetHandler = () => {
     searchOpt.username = ''
     getUserList()
+}
+
+
+const form = ref({
+    username: '',
+    password: ''
+});
+const formFlag = ref(false);
+const addHandler = () => {
+    console.log('新增')
+    formFlag.value = true;
+}
+const submitAddUser = async () => {
+    
 }
 </script>

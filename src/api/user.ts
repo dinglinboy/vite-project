@@ -5,7 +5,7 @@ import { getUsersResponse, getUsersDto } from '@/api/types/index'
  * @param
  */
 export const getUsersApi = (params: getUsersDto) => {
-    return axios.get<any, getUsersResponse>('/auth/admin/getUsers', {
+    return axios.get<any, getUsersResponse>('/user/list', {
         params
     })
 }

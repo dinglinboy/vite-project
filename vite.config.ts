@@ -19,5 +19,14 @@ export default defineConfig({
         alias: {
             '@': path.resolve(__dirname, 'src')
         }
+    },
+    server: {
+       proxy: {
+           '/dev/api': {
+                target: 'http://localhost:3000', // 后端服务地址
+                changeOrigin: true, // 允许跨域
+                rewrite: (path) => path.replace(/^\/api/, '') // 重写路径
+            }
+       } 
     }
 })

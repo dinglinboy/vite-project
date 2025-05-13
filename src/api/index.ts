@@ -21,7 +21,7 @@ export const getCoffees = (param: Pagination) => {
  * @returns
  */
 export const login = (param: User) => {
-    return axios.post<any, UserInfoResult>(`/auth/admin/signIn`, param)
+    return axios.post<any, UserInfoResult>(`/login`, param)
 }
 
 /**
@@ -30,7 +30,7 @@ export const login = (param: User) => {
  * @returns
  */
 export const register = (param: User) => {
-    return axios.post<any, Result>(`/auth/admin/signUp`, param)
+    return axios.post<any, Result>(`/signUp`, param)
 }
 
 /**
