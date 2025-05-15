@@ -3,22 +3,39 @@ interface UserInfo {
     checked?: boolean
     jwt_token?: string
 }
-let userInfo: UserInfo = {}
+let userInfo: UserInfo | null = null
 export const setUserInfo = (info: UserInfo) => {
-    localStorage.setItem('userIfno', JSON.stringify(info))
+    localStorage.setItem('userInfo', JSON.stringify(info))
     userInfo = info
 }
 export const clearUserInfo = () => {
-    userInfo = {}
-    localStorage.removeItem('userIfno')
+    userInfo = null
+    localStorage.removeItem('userInfo')
 }
 export const getUserInfo = () => {
     if (userInfo) return userInfo
-    const res: string = localStorage.getItem('userIfno') || '{}'
+    const res: string | null = localStorage.getItem('userInfo') || '{}'
     try {
         userInfo = JSON.parse(res)
     } catch (error) {
         userInfo = {}
     }
     return userInfo
+}
+
+interface LoginInfo {
+    username: string
+    password: string
+    checked: boolean
+}
+export const setLoginInfo = (loginInfo: LoginInfo) => {
+    localStorage.setItem('loginInfo', JSON.stringify(loginInfo))
+}
+export const getLoginInfo = () => {
+    const loginInfo: string | null = localStorage.getItem('loginInfo') || '{}'
+    try {
+        return JSON.parse(loginInfo) as LoginInfo
+    } catch (error) {
+        return {} as LoginInfo
+    }
 }

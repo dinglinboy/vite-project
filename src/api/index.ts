@@ -4,10 +4,10 @@ import {
     CoffeesResponse,
     ClassifyResponse,
     Pagination,
-    Result,
     UserInfoResult,
     User
 } from '@/api/types/index'
+import { Result } from '@/interfaces/base.interface'
 export const getCoffees = (param: Pagination) => {
     const { pageNum, pageSize } = param
     return axios.get<any, CoffeesResponse[]>(

@@ -53,10 +53,10 @@
 </template>
 <script lang="ts" setup>
 import { User, Lock } from '@element-plus/icons-vue'
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { useRouter, LocationQueryValue } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
-import { setUserInfo } from '@/util/util'
+import { setUserInfo, getLoginInfo, setLoginInfo } from '@/util/util'
 import { login } from '@/api/index'
 import { ElMessage } from 'element-plus';
 const router = useRouter()
@@ -94,6 +94,13 @@ const submit = async (formEl: FormInstance | undefined) => {
                     loading.value = false
                     return
                 }
+                if (form.checked) {
+                    setLoginInfo({
+                        username: form.username,
+                        password: form.password,
+                        checked: form.checked
+                    }); 
+                }
                 setUserInfo({
                     username: form.username,
                     checked: form.checked,
@@ -112,6 +119,17 @@ const submit = async (formEl: FormInstance | undefined) => {
 const jumpToRegister = () => {
     router.push('/signUp')
 }
+const initForm = () => {
+    const { username, password, checked } = getLoginInfo()
+    if (checked) {
+        form.username = username
+        form.password = password
+        form.checked = checked
+    }
+}
+onMounted(() => {
+    initForm();
+});
 </script>
 <style lang="scss">
 .login-page {

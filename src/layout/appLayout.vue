@@ -27,6 +27,7 @@ import appHeader from './appHeader/index.vue'
     }
     .el-main {
         background: #ddd;
+        padding: 10px;
     }
 }
 </style>

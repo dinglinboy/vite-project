@@ -56,7 +56,7 @@ const router = createRouter({
 const publicPage = ['login', 'signUp']
 router.beforeEach((to, from, next) => {
     nprogress.start()
-    const { jwt_token } = getUserInfo()
+    const { jwt_token } = getUserInfo() || {};
     if (jwt_token) {
         next()
     } else {

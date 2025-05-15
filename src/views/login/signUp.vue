@@ -81,7 +81,7 @@ const submit = async (formEl: FormInstance | undefined) => {
             const { username, password } = form
             register({ username, password })
                 .then((res) => {
-                    const { code, message } = res
+                    const { code, msg } = res
                     if (code === 0) {
                         ElMessage.success('注册成功,3秒后自动跳转登录页')
                         resetForm(ruleFormRef.value)
@@ -89,7 +89,7 @@ const submit = async (formEl: FormInstance | undefined) => {
                             router.push('/login')
                         }, 3000)
                     } else {
-                        ElMessage.warning(message || '注册成功')
+                        ElMessage.warning(msg || '注册成功')
                     }
                 })
                 .catch((err) => {

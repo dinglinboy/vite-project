@@ -5,7 +5,7 @@
                 v-for="item in routes"
                 :key="item.path"
                 :to="{ path: item.path }"
-                >{{ item.meta.title }}</el-breadcrumb-item
+                >{{ item.meta.name }}</el-breadcrumb-item
             >
         </el-breadcrumb>
     </div>
@@ -18,7 +18,7 @@ import { computed } from 'vue'
 
 const router = useRouter()
 const routes = computed(() => {
-    return router.currentRoute.value.matched.filter((v) => v.meta.title)
+    return router.currentRoute.value.matched.filter((v) => v.meta.name)
 })
 </script>
 <style lang="scss">

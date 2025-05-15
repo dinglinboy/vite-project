@@ -1,3 +1,4 @@
+import { PagingDto, Result } from '@/interfaces/base.interface';
 export interface CoffeesResponse {
     name: string
     _id: string
@@ -21,13 +22,6 @@ export interface ClassifySearch {
     pageNum?: number
 }
 
-export interface Result {
-    code?: number
-    message?: string
-    msg?: string
-    result?: [] | string | object | null | boolean | string
-}
-
 export type UserInfoResult = Result & { result: { jwtToken: string } }
 
 export interface ClassifyResponse {
@@ -42,20 +36,4 @@ export interface UserListDto extends Result  {
         data: User[],
         total: number
     }
-}
-
-export interface getUsersDto extends PagingDto {
-    username?: string
-}
-
-interface DateParamsDTO {
-    beginTime: string;
-    endTime: string;
-}
-interface PagingDto {
-    pageNum: number;
-    pageSize: number;
-    orderByColumn?: string
-    isAsc?: 'ascending' | 'descending'
-    param?: DateParamsDTO
 }
