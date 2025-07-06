@@ -1,7 +1,5 @@
 import axios from '@/util/axios'
-import {
-    RoleListDto
-} from '@/api/types/request'
+import { RoleListDto } from '@/api/types/request'
 import { getRoleListResponse, Role } from '@/api/types/response'
 import { Result } from '@/interfaces/base.interface'
 

@@ -23,7 +23,9 @@
                             >查询</el-button
                         >
                         <el-button @click="resetHandler">重置</el-button>
-                        <el-button type="primary" @click="addHandler">新增用户</el-button>
+                        <el-button type="primary" @click="addHandler"
+                            >新增用户</el-button
+                        >
                     </el-form-item>
                 </el-form>
             </div>
@@ -43,7 +45,9 @@
             </el-table-column>
             <el-table-column label="操作">
                 <template #default="{ row }">
-                    <el-button type="primary">编辑</el-button>
+                    <el-button type="primary" @click="addHandler(row)"
+                        >编辑</el-button
+                    >
                     <el-button>详情</el-button>
                     <el-button type="danger">删除</el-button>
                 </template>
@@ -63,16 +67,25 @@
     <el-dialog title="新增用户" v-model="formFlag">
         <el-form ref="form" label-width="100px">
             <el-form-item label="用户名">
-                <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
+                <el-input
+                    v-model="form.username"
+                    placeholder="请输入用户名"
+                ></el-input>
             </el-form-item>
             <el-form-item label="密码">
-                <el-input v-model="form.password" placeholder="请输入密码"></el-input>
+                <el-input
+                    v-model="form.password"
+                    placeholder="请输入密码"
+                ></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="submitAddUser">提交</el-button>
+                <el-button type="primary" @click="submitAddUser"
+                    >提交</el-button
+                >
             </el-form-item>
         </el-form>
     </el-dialog>
+    <Modify ref="modifyRef" />
 </template>
 
 <script lang="ts" setup>
@@ -81,6 +94,7 @@ import { onMounted, ref, reactive } from 'vue'
 import { getUsersResponse, User } from '@/api/types/response'
 import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
+import Modify from './modify.vue'
 // 查询条件对象
 const searchOpt = reactive({
     nickname: '', // 搜索用户昵称
@@ -93,6 +107,10 @@ const total = ref(0)
 
 // 用户列表
 const userList = ref<User[]>([])
+
+const modifyRef = ref<{ openDialog: (userInfo: User | null) => void } | null>(
+    null
+)
 
 // 获取用户列表
 onMounted(() => {
@@ -136,24 +154,21 @@ const resetHandler = () => {
 const form = ref({
     username: '',
     password: ''
-});
+})
 // 定义控制新增用户对话框显示与隐藏的响应式引用
-const formFlag = ref(false);
+const formFlag = ref(false)
 
 // 点击新增用户按钮时触发的处理函数
-const addHandler = () => {
-    console.log('新增')
+const addHandler = (data = null) => {
     // 显示新增用户对话框
-    formFlag.value = true;
+    modifyRef?.value?.openDialog(data)
 }
 
 // 点击提交新增用户表单时触发的异步处理函数
-const submitAddUser = async () => {
-    
-}
+const submitAddUser = async () => {}
 </script>
 <style lang="scss" scoped>
-.el-pagination{
+.el-pagination {
     margin-top: 10px;
 }
 </style>

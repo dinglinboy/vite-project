@@ -16,6 +16,7 @@
                     type="text"
                     size="large"
                     :prefix-icon="User"
+                    @keyup.enter="submit(ruleFormRef)"
                     placeholder="请输入用户名"
                 ></el-input>
             </el-form-item>
@@ -27,6 +28,7 @@
                     size="large"
                     type="password"
                     placeholder="请输入密码"
+                    @keyup.enter="submit(ruleFormRef)"
                 ></el-input>
             </el-form-item>
             <el-form-item class="flexSpaceBetween">
@@ -58,7 +60,7 @@ import { useRouter, LocationQueryValue } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
 import { setUserInfo, getLoginInfo, setLoginInfo } from '@/util/util'
 import { login } from '@/api/index'
-import { ElMessage } from 'element-plus';
+import { ElMessage } from 'element-plus'
 const router = useRouter()
 // 设置表单
 const form = reactive({
@@ -99,7 +101,7 @@ const submit = async (formEl: FormInstance | undefined) => {
                         username: form.username,
                         password: form.password,
                         checked: form.checked
-                    }); 
+                    })
                 }
                 setUserInfo({
                     username: form.username,
@@ -128,8 +130,8 @@ const initForm = () => {
     }
 }
 onMounted(() => {
-    initForm();
-});
+    initForm()
+})
 </script>
 <style lang="scss">
 .login-page {
