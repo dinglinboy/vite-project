@@ -35,8 +35,12 @@ const opendialog = (userInfo?: User | null) => {
 }
 const submitRoleInfo = async () => {
     const fn = form.roleId ? updateRoleInfoApi : addRoleInfoApi
-    fn({ ...form })
-        .then((res) => {
+    fn({ 
+        roleName: form.roleName,
+        roleKey: form.roleKey,
+        remark: form.remark,
+        ...(form.roleId ? { roleId: form.roleId } : undefined)
+     }).then((res) => {
             if (res.code !== 0) {
                 return ElMessage.error(res.message)
             }
