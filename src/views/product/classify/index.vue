@@ -61,7 +61,9 @@ import {
     updateClassifyApi
 } from '@/api/index'
 import type { Action } from 'element-plus'
-import { ClassifyResponse, Result } from '@/api/types'
+import { ClassifyResponse } from '@/api/types'
+import { Result } from '@/interfaces/base.interface';
+
 const form = reactive({
     classifyName: ''
 })

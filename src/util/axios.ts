@@ -9,9 +9,9 @@ const instance = axios.create({
 // Add a request interceptor
 instance.interceptors.request.use(
     function (config) {
-        const { jwt_token } = getUserInfo()
-        if (jwt_token) {
-            config.headers.Authorization = 'Bearer ' + jwt_token
+        const userInfo = getUserInfo()
+        if (userInfo?.jwt_token) {
+            config.headers.Authorization = 'Bearer ' + userInfo?.jwt_token
         }
         // Do something before request is sent
         return config

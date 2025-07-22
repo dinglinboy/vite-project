@@ -23,7 +23,7 @@
                             >查询</el-button
                         >
                         <el-button @click="resetHandler">重置</el-button>
-                        <el-button type="primary" @click="openModifyDialog"
+                        <el-button type="primary" @click="openModifyDialog(null)"
                             >新增角色</el-button
                         >
                     </el-form-item>

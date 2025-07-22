@@ -23,7 +23,7 @@
                             >查询</el-button
                         >
                         <el-button @click="resetHandler">重置</el-button>
-                        <el-button type="primary" @click="addHandler"
+                        <el-button type="primary" @click="addHandler(null)"
                             >新增用户</el-button
                         >
                     </el-form-item>
