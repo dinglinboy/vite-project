@@ -19,19 +19,25 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
-import { User } from '@/api/types/response'
+import { Role } from '@/api/types/response'
 import { addRoleInfoApi, updateRoleInfoApi } from '@/api/role'
 import { ElMessage } from 'element-plus'
 const emit = defineEmits(['update:success'])
 const dialogFlag = ref(false)
-const form = reactive({
-    roleId: '',
+const form = reactive<Role>({
+    roleId: undefined,
     roleName: '',
     roleKey: '',
     remark: ''
 })
-const opendialog = (userInfo?: User | null) => {
+const opendialog = (roleInfo?: Role | null) => {
     dialogFlag.value = true
+    if (roleInfo) {
+        form.roleName = roleInfo.roleName;
+        form.roleKey = roleInfo.roleKey;
+        form.remark = roleInfo.remark as string;
+        form.roleId = roleInfo.roleId;
+    }
 }
 const submitRoleInfo = async () => {
     const fn = form.roleId ? updateRoleInfoApi : addRoleInfoApi

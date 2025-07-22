@@ -1,8 +1,9 @@
 import { Result } from '@/interfaces/base.interface';
 
 export interface Role {
-    roleId?: string
+    roleId?: number
     roleName: string
+    remakr?: string
     roleKey: string
     status?: number
     remark?: string
