@@ -6,6 +6,7 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 // https://vitejs.dev/config/
 export default defineConfig({
+    base: './',
     plugins: [
         vue(),
         AutoImport({
@@ -22,7 +23,12 @@ export default defineConfig({
     },
     server: {
        proxy: {
-           '/dev/api': {
+           '/prod/api': {
+                target: 'http://139.196.236.142', // 后端服务地址
+                changeOrigin: true, // 允许跨域
+                rewrite: (path) => path.replace(/^\/api/, '') // 重写路径
+            },
+            '/dev/api': {
                 target: 'http://localhost:3000', // 后端服务地址
                 changeOrigin: true, // 允许跨域
                 rewrite: (path) => path.replace(/^\/api/, '') // 重写路径
