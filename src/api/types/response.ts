@@ -29,3 +29,17 @@ interface UserListResult {
 export interface getUsersResponse extends Result {
     result: UserListResult
 }
+
+export interface Dept {
+    deptId?: string
+    deptName: string
+    createTime?: string
+    updateTime?: string
+}
+interface DeptListResult {
+    data: Dept[]
+    total: number
+}
+export interface getDeptListResponse extends Result {
+    result: DeptListResult
+}

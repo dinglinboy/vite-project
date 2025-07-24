@@ -30,7 +30,9 @@ import { useRouter } from 'vue-router'
 import { clearUserInfo } from '@/util/util'
 const router = useRouter()
 const handlePersonCenterClick = () => {
+    router.push('/profile')
     // eslint-disable-next-line no-alert
+    
 }
 const handleLogoutClick = () => {
     ElMessageBox.confirm('确定登出吗？', '提示', {

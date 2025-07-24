@@ -1,53 +1,58 @@
 <template>
-    <div class="product-list">
-        <el-form :model="form" inline ref="formRef">
-            <el-form-item label="商品名称" prop="classifyName">
-                <el-input v-model="form.classifyName"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="queryClassifyByOption"
-                    >查询</el-button
-                >
-                <el-button @click="resetForm(formRef)">重置</el-button>
-                <el-button type="primary" @click="setClassifyModal('add')"
-                    >添加</el-button
-                >
-            </el-form-item>
-        </el-form>
-    </div>
-    <el-table :data="tableData" empty-text="无数据" border style="width: 100%">
-        <el-table-column prop="name" label="分类名称" />
-        <el-table-column label="操作" width="100">
-            <template #default="{ row }">
-                <el-icon @click="removeClassify(row)"><iconDelete /></el-icon>
-                <el-icon @click="setClassifyModal('edit', row)"
-                    ><iconEdit
-                /></el-icon>
-            </template>
-        </el-table-column>
-    </el-table>
-    <el-dialog
-        v-model="classifyModal.showModal"
-        :title="classifyModal.modalTitle"
-        center
-    >
-        <el-input v-model:model-value="classifyModal.classifyName"></el-input>
-        <template #footer>
-            <el-button
-                type="primary"
-                @click="submitClassify(classifyModal.modalType)"
-                >提交</el-button
-            >
+    <el-card class="box-card">
+        <template #header>
+            <div class="product-list">
+                <el-form :model="form" inline ref="formRef">
+                    <el-form-item label="分类名称" prop="classifyName">
+                        <el-input v-model="form.classifyName"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="queryClassifyByOption"
+                            >查询</el-button
+                        >
+                        <el-button @click="resetForm(formRef)">重置</el-button>
+                        <el-button type="primary" @click="setClassifyModal('add')"
+                            >添加</el-button
+                        >
+                    </el-form-item>
+                </el-form>
+            </div>
         </template>
-    </el-dialog>
-    <el-pagination
-        background
-        layout="prev, pager, next, total"
-        :total="pagination.total"
-        :page-size="pagination.pageSize"
-        @current-change="queryClassifyByOption"
-        v-model:current-page="pagination.pageNum"
-    />
+        <el-table :data="tableData" empty-text="无数据" border style="width: 100%">
+            <el-table-column prop="name" label="分类名称" />
+            <el-table-column prop="id" label="分类ID" />
+            <el-table-column label="操作" width="100">
+                <template #default="{ row }">
+                    <el-icon @click="removeClassify(row)"><iconDelete /></el-icon>
+                    <el-icon @click="setClassifyModal('edit', row)"
+                        ><iconEdit
+                    /></el-icon>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-pagination
+            background
+            layout="prev, pager, next, total"
+            :total="pagination.total"
+            :page-size="pagination.pageSize"
+            @current-change="queryClassifyByOption"
+            v-model:current-page="pagination.pageNum"
+        />
+        <el-dialog
+            v-model="classifyModal.showModal"
+            :title="classifyModal.modalTitle"
+            center
+        >
+            <el-input v-model:model-value="classifyModal.classifyName"></el-input>
+            <template #footer>
+                <el-button
+                    type="primary"
+                    @click="submitClassify(classifyModal.modalType)"
+                    >提交</el-button
+                >
+            </template>
+        </el-dialog>
+    </el-card>
 </template>
 <script lang="ts" setup>
 import { Delete as iconDelete, Edit as iconEdit } from '@element-plus/icons-vue'

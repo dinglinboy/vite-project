@@ -24,7 +24,16 @@ const routes: RouteRecordRaw[] = [
             productRoutes,
             orderRoutes,
             mediaRoutes,
-            permissionRoutes
+            permissionRoutes,
+            {
+                path: 'profile',
+                name: 'profile',
+                meta: {
+                    title: true,
+                    name: '个人中心'
+                },
+                component: () => import('../views/profile/index.vue')
+            }
         ]
     },
     {

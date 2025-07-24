@@ -42,6 +42,7 @@
             <el-menu-item index="/permission/admin">管理员</el-menu-item>
             <el-menu-item index="/permission/rule">权限规则</el-menu-item>
             <el-menu-item index="/permission/user">用户管理</el-menu-item>
+            <el-menu-item index="/permission/dept">部门管理</el-menu-item>
         </el-sub-menu>
     </el-menu>
 </template>
