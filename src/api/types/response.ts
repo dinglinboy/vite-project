@@ -1,4 +1,4 @@
-import { Result } from '@/interfaces/base.interface';
+import { Result } from '@/interfaces/base.interface'
 
 export interface Role {
     roleId?: number
@@ -17,17 +17,25 @@ interface RoleListResult {
 export interface getRoleListResponse extends Result {
     redult: RoleListResult
 }
-
-export interface User {
-    username: string
-    password: string
+export interface UserDto {
+    id?: number | null
+    username?: string
+    nickname?: string
+    email?: string
+    phoneNum?: string
+    sex?: string
+    remark?: string
+    avatar?: string
 }
 interface UserListResult {
-    data: User[]
+    data: UserDto[]
     total: number
 }
 export interface getUsersResponse extends Result {
     result: UserListResult
+}
+export interface getUsersResponseDto extends Result {
+    result: UserDto
 }
 
 export interface Dept {

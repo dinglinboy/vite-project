@@ -6,7 +6,7 @@ import mediaRoutes from './modules/media'
 import permissionRoutes from './modules/permission'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { getUserInfo } from '@/util/util'
+import { getJwtToken } from '@/util/util'
 const routes: RouteRecordRaw[] = [
     {
         path: '/',
@@ -65,8 +65,8 @@ const router = createRouter({
 const publicPage = ['login', 'signUp']
 router.beforeEach((to, from, next) => {
     nprogress.start()
-    const { jwt_token } = getUserInfo() || {};
-    if (jwt_token) {
+    const jwtToken = getJwtToken() || '';
+    if (jwtToken) {
         next()
     } else {
         if (to.meta.noAuth) {

@@ -27,12 +27,11 @@
 import 'element-plus/es/components/message-box/style/css'
 import { ElMessageBox } from 'element-plus'
 import { useRouter } from 'vue-router'
-import { clearUserInfo } from '@/util/util'
+import { clearUserInfo, clearJwtToken } from '@/util/util'
 const router = useRouter()
 const handlePersonCenterClick = () => {
     router.push('/profile')
     // eslint-disable-next-line no-alert
-    
 }
 const handleLogoutClick = () => {
     ElMessageBox.confirm('确定登出吗？', '提示', {
@@ -41,6 +40,7 @@ const handleLogoutClick = () => {
         type: 'warning'
     }).then(() => {
         clearUserInfo()
+        clearJwtToken()
         router.replace('/login')
     })
     // .catch(() => {})

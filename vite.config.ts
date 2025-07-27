@@ -32,6 +32,11 @@ export default defineConfig({
                 target: 'http://localhost:3000', // 后端服务地址
                 changeOrigin: true, // 允许跨域
                 rewrite: (path) => path.replace(/^\/api/, '') // 重写路径
+            },
+            '/dev/file': {
+                target: 'http://localhost:3000', // 后端服务地址s
+                changeOrigin: true, // 允许跨域
+                rewrite: (path) => path.replace(/^\/file/, 'file') // 重写路径
             }
        } 
     }

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <!-- 背景 -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3498db" />
+      <stop offset="100%" stop-color="#9b59b6" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" />
+      <feOffset dx="2" dy="2" result="offsetblur" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3" />
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 圆形背景 -->
+  <circle cx="250" cy="250" r="200" fill="url(#bgGradient)" />
+  
+  <!-- 购物袋图形 -->
+  <path d="M320,220 L320,320 Q320,340 300,340 L200,340 Q180,340 180,320 L180,220 L150,220 L150,200 L350,200 L350,220 Z" 
+        fill="white" filter="url(#shadow)" />
+  
+  <!-- 购物袋手柄 -->
+  <path d="M200,200 Q200,160 250,160 Q300,160 300,200" 
+        fill="none" stroke="white" stroke-width="15" stroke-linecap="round" />
+  
+  <!-- 购物元素 -->
+  <circle cx="220" cy="260" r="15" fill="#e74c3c" />
+  <circle cx="280" cy="260" r="15" fill="#2ecc71" />
+  <rect x="235" y="280" width="30" height="30" rx="5" fill="#f1c40f" />
+  
+  <!-- 文字 -->
+  <text x="250" y="390" font-family="'Arial', sans-serif" font-size="40" font-weight="bold" text-anchor="middle" fill="white">MALL</text>
+  <text x="250" y="420" font-family="'Arial', sans-serif" font-size="20" text-anchor="middle" fill="white">SHOPPING CENTER</text>
+</svg>

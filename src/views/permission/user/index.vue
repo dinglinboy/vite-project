@@ -91,7 +91,7 @@
 <script lang="ts" setup>
 import { getUserListApi } from '@/api/user'
 import { onMounted, ref, reactive } from 'vue'
-import { getUsersResponse, User } from '@/api/types/response'
+import { getUsersResponse, UserDto } from '@/api/types/response'
 import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
 import Modify from './modify.vue'
@@ -106,11 +106,11 @@ const searchOpt = reactive({
 const total = ref(0)
 
 // 用户列表
-const userList = ref<User[]>([])
+const userList = ref<UserDto[]>([])
 
-const modifyRef = ref<{ openDialog: (userInfo: User | null) => void } | null>(
-    null
-)
+const modifyRef = ref<{
+    openDialog: (userInfo: UserDto | null) => void
+} | null>(null)
 
 // 获取用户列表
 onMounted(() => {
@@ -165,7 +165,7 @@ const addHandler = (data = null) => {
 }
 
 // 点击提交新增用户表单时触发的异步处理函数
-const submitAddUser = async () => {}
+const submitAddUser = async () => ({})
 </script>
 <style lang="scss" scoped>
 .el-pagination {

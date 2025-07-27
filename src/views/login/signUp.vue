@@ -1,7 +1,11 @@
 <template>
     <div class="login-page">
-        <div class="login-page-logo">
-            <img src="/public/vite.svg" height="200" />
+        <div class="particles">
+            <div v-for="n in 20" :key="n" class="particle" :style="{ '--i': n }"></div>
+        </div>
+        <div class="signup-logo">
+            <img src="/mall-logo-modern.svg" height="120" />
+            <div class="signup-title">用户注册</div>
         </div>
         <el-form
             class="login-page-form"
@@ -40,12 +44,15 @@
                     >注册</el-button
                 >
             </el-form-item>
+            <div class="login-link">
+                <span @click="jumpToLogin" class="cursor">已有账号？去登录</span>
+            </div>
         </el-form>
     </div>
 </template>
 <script lang="ts" setup>
 import { User, Lock } from '@element-plus/icons-vue'
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
@@ -101,50 +108,36 @@ const submit = async (formEl: FormInstance | undefined) => {
         loading.value = false
     })
 }
+
+// 跳转登录页面
+const jumpToLogin = () => {
+    router.push('/login')
+}
+
+// 添加鼠标移动效果
+const handleMouseMove = (e: MouseEvent) => {
+    const particles = document.querySelectorAll('.particle');
+    const x = e.clientX / window.innerWidth;
+    const y = e.clientY / window.innerHeight;
+    
+    particles.forEach((particle, index) => {
+        const el = particle as HTMLElement;
+        const factor = (index + 1) * 0.1;
+        const offsetX = (x - 0.5) * factor * 100;
+        const offsetY = (y - 0.5) * factor * 100;
+        
+        el.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    });
+}
+
+onMounted(() => {
+    window.addEventListener('mousemove', handleMouseMove);
+})
+
+onBeforeUnmount(() => {
+    window.removeEventListener('mousemove', handleMouseMove);
+})
 </script>
 <style lang="scss">
-.login-page {
-    font-size: 18px;
-    box-sizing: border-box;
-    width: 100vw;
-    height: 100vh;
-    background: cornflowerblue;
-    &-logo {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 300px;
-        img:hover {
-            transform: scale(1.2);
-            transition: all 0.3s linear;
-        }
-    }
-    &-form {
-        margin: auto;
-        padding: 20px;
-        border-radius: 5px;
-        width: 500px;
-        background: #fff;
-        .user-inp {
-            height: 50px;
-            font-size: 18px;
-            .el-input__icon {
-                font-size: 18px;
-            }
-        }
-        .submit {
-            height: 50px;
-            width: 100%;
-            font-size: 18px;
-        }
-        .flexSpaceBetween {
-            .el-form-item__content {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-            }
-        }
-    }
-}
+@import './signUp.scss';
 </style>

@@ -1,5 +1,5 @@
 import axios from '@/util/axios'
-import { getUsersResponse } from '@/api/types/response'
+import { getUsersResponse, getUsersResponseDto } from '@/api/types/response'
 import { UserListDto } from '@/api/types/request'
 /**
  * 获取用户列表
@@ -19,6 +19,16 @@ export const getUserListApi = (params: UserListDto) => {
 export const getUserInfoApi = (userId: string) => {
     return axios.get<any, getUsersResponse>(`/user/${userId}`)
 }
+
+/**
+ * 根据用户名获取用户信息
+ * @param params 查询参数
+ * @return 用户信息
+ */
+export const getUserInfoByUsername = (params: any) => {
+    return axios.get<any, getUsersResponseDto>('/user/getUserInfo', { params })
+}
+
 /**
  * 删除用户
  * @param userId 用户id
@@ -34,7 +44,7 @@ export const deleteUserApi = (userId: string) => {
  * @return 更新结果
  */
 export const updateUserApi = (userInfo: any) => {
-    return axios.put<any, getUsersResponse>(`/user/${userInfo.id}`, userInfo)
+    return axios.put<any, getUsersResponse>('/user/update', userInfo)
 }
 /**
  * 添加用户

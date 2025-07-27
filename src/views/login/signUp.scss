@@ -1,0 +1,73 @@
+@import './login-shared.scss';
+
+// 注册页特有样式
+.login-page {
+    .signup-logo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 30px;
+        margin-top: 100px;
+        position: relative;
+        z-index: 1;
+        animation: logoAppear 1s ease forwards;
+        
+        img {
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+            transition: all 0.3s ease;
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+        
+        .signup-title {
+            margin-top: 12px;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 3px;
+        }
+    }
+    
+    &-form {
+        .login-link {
+            text-align: right;
+            margin-top: 10px;
+        }
+    }
+}
+
+// 注册页响应式调整
+@media screen and (max-width: 768px) {
+    .login-page {
+        .signup-logo {
+            margin-bottom: 15px;
+            margin-top: 70px;
+            img {
+                height: 90px;
+            }
+            .signup-title {
+                font-size: 22px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .login-page {
+        .signup-logo {
+            margin-bottom: 10px;
+            margin-top: 50px;
+            img {
+                height: 70px;
+            }
+            .signup-title {
+                font-size: 20px;
+                margin-top: 5px;
+            }
+        }
+    }
+}

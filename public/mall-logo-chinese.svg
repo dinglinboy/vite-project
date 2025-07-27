@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <!-- 渐变和滤镜定义 -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B0000" />
+      <stop offset="100%" stop-color="#CD5C5C" />
+    </linearGradient>
+    
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD700" />
+      <stop offset="100%" stop-color="#DAA520" />
+    </linearGradient>
+    
+    <filter id="paperTexture" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+    
+    <filter id="inkEffect" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1" result="blur" />
+      <feOffset in="blur" dx="1" dy="1" result="offsetBlur" />
+      <feMerge>
+        <feMergeNode in="offsetBlur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 背景 - 中国传统红色圆形 -->
+  <circle cx="250" cy="250" r="180" fill="url(#bgGradient)" filter="url(#paperTexture)" />
+  
+  <!-- 中国传统建筑轮廓 -->
+  <g transform="translate(250, 200)" filter="url(#inkEffect)">
+    <!-- 宫殿式屋顶 -->
+    <path d="M-80,-20 C-70,-40 -40,-50 0,-50 C40,-50 70,-40 80,-20 L60,-20 L60,40 L-60,40 L-60,-20 Z" 
+          fill="none" stroke="url(#goldGradient)" stroke-width="6" />
+    
+    <!-- 屋檐装饰 -->
+    <path d="M-80,-20 C-70,-30 -40,-35 0,-35 C40,-35 70,-30 80,-20" 
+          fill="none" stroke="url(#goldGradient)" stroke-width="3" />
+    
+    <!-- 柱子 -->
+    <line x1="-50" y1="-20" x2="-50" y2="40" stroke="url(#goldGradient)" stroke-width="6" />
+    <line x1="-20" y1="-20" x2="-20" y2="40" stroke="url(#goldGradient)" stroke-width="6" />
+    <line x1="20" y1="-20" x2="20" y2="40" stroke="url(#goldGradient)" stroke-width="6" />
+    <line x1="50" y1="-20" x2="50" y2="40" stroke="url(#goldGradient)" stroke-width="6" />
+    
+    <!-- 门 -->
+    <rect x="-15" y="0" width="30" height="40" rx="2" fill="url(#goldGradient)" />
+  </g>
+  
+  <!-- 中国结装饰 -->
+  <g transform="translate(250, 280)">
+    <path d="M0,-20 L0,20 M-15,0 L15,0 M-10,-10 L10,10 M-10,10 L10,-10" 
+          stroke="url(#goldGradient)" stroke-width="5" stroke-linecap="round" />
+    <circle cx="0" cy="0" r="5" fill="url(#goldGradient)" />
+  </g>
+  
+  <!-- 中文名称 -->
+  <text x="250" y="350" font-family="'SimSun', serif" font-size="40" font-weight="bold" text-anchor="middle" fill="white" filter="url(#inkEffect)">盛世商城</text>
+  
+  <!-- 英文名称 -->
+  <text x="250" y="380" font-family="'Arial', sans-serif" font-size="16" text-anchor="middle" fill="white">SHENGSHI MALL</text>
+  
+  <!-- 中国传统装饰元素 - 如意纹 -->
+  <g transform="translate(250, 120)">
+    <path d="M-40,0 C-30,-15 -15,-20 0,-20 C15,-20 30,-15 40,0" 
+          fill="none" stroke="url(#goldGradient)" stroke-width="3" />
+    <path d="M-30,-5 C-20,-15 -10,-18 0,-18 C10,-18 20,-15 30,-5" 
+          fill="none" stroke="url(#goldGradient)" stroke-width="2" />
+  </g>
+  
+  <!-- 四角装饰 -->
+  <path d="M140,140 L160,140 L160,160 L140,160 Z" stroke="url(#goldGradient)" stroke-width="2" fill="none" />
+  <path d="M340,140 L360,140 L360,160 L340,160 Z" stroke="url(#goldGradient)" stroke-width="2" fill="none" />
+  <path d="M140,340 L160,340 L160,360 L140,360 Z" stroke="url(#goldGradient)" stroke-width="2" fill="none" />
+  <path d="M340,340 L360,340 L360,360 L340,360 Z" stroke="url(#goldGradient)" stroke-width="2" fill="none" />
+</svg>

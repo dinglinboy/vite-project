@@ -46,13 +46,14 @@ import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { addUserApi, updateUserApi } from '@/api/user'
 import { getRoleListApi } from '@/api/role'
-import { User } from '@/api/types/response'
+import { UserDto } from '@/api/types/response'
 const visibleDialog = ref(false)
 const isEdit = ref(false)
 const router = useRouter()
 const formRef = ref()
-interface UserForm extends User {
+interface UserForm extends UserDto {
     roleId: string
+    password: string
 }
 type Role = {
     roleId: string

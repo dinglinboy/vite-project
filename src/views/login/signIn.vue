@@ -1,7 +1,11 @@
 <template>
     <div class="login-page">
-        <div class="login-page-logo">
-            <img src="/public/vite.svg" height="200" />
+        <div class="particles">
+            <div v-for="n in 20" :key="n" class="particle" :style="{ '--i': n }"></div>
+        </div>
+        <div class="mall-logo">
+            <img src="/mall-logo-modern.svg" height="120" />
+            <div class="mall-name">LUXURY MALL</div>
         </div>
         <el-form
             class="login-page-form"
@@ -55,12 +59,14 @@
 </template>
 <script lang="ts" setup>
 import { User, Lock } from '@element-plus/icons-vue'
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter, LocationQueryValue } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
 import { setUserInfo, getLoginInfo, setLoginInfo } from '@/util/util'
 import { login } from '@/api/index'
+import { getUserInfoByUsername } from '@/api/user'
 import { ElMessage } from 'element-plus'
+import { setJwtToken } from '@/util/util'
 const router = useRouter()
 // 设置表单
 const form = reactive({
@@ -103,10 +109,12 @@ const submit = async (formEl: FormInstance | undefined) => {
                         checked: form.checked
                     })
                 }
-                setUserInfo({
-                    username: form.username,
-                    checked: form.checked,
-                    jwt_token: res.result.jwtToken
+                setJwtToken(res.result.jwtToken)
+                getUserInfoByUsername({ username: form.username }).then(userRes => {
+                    console.log(userRes)
+                    if (userRes.code === 0) {
+                        setUserInfo(userRes.result)
+                    }
                 })
                 const { redirect } = router.currentRoute.value.query
                 router.push((redirect as LocationQueryValue) || '/')
@@ -129,53 +137,31 @@ const initForm = () => {
         form.checked = checked
     }
 }
+// 添加鼠标移动效果
+const handleMouseMove = (e: MouseEvent) => {
+    const particles = document.querySelectorAll('.particle');
+    const x = e.clientX / window.innerWidth;
+    const y = e.clientY / window.innerHeight;
+    
+    particles.forEach((particle, index) => {
+        const el = particle as HTMLElement;
+        const factor = (index + 1) * 0.1;
+        const offsetX = (x - 0.5) * factor * 100;
+        const offsetY = (y - 0.5) * factor * 100;
+        
+        el.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    });
+}
+
 onMounted(() => {
-    initForm()
+    initForm();
+    window.addEventListener('mousemove', handleMouseMove);
+})
+
+onBeforeUnmount(() => {
+    window.removeEventListener('mousemove', handleMouseMove);
 })
 </script>
 <style lang="scss">
-.login-page {
-    font-size: 18px;
-    box-sizing: border-box;
-    width: 100vw;
-    height: 100vh;
-    background: cornflowerblue;
-    &-logo {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 300px;
-        img:hover {
-            transform: scale(1.2);
-            transition: all 0.3s linear;
-        }
-    }
-    &-form {
-        margin: auto;
-        padding: 20px;
-        border-radius: 5px;
-        width: 500px;
-        background: #fff;
-        .user-inp {
-            height: 50px;
-            font-size: 18px;
-            .el-input__icon {
-                font-size: 18px;
-            }
-        }
-        .submit {
-            height: 50px;
-            width: 100%;
-            font-size: 18px;
-        }
-        .flexSpaceBetween {
-            .el-form-item__content {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-            }
-        }
-    }
-}
+@import './signIn.scss';
 </style>

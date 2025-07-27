@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getUserInfo } from './util.js'
+import { getJwtToken } from '@/util/util'
 import router from '@/router/index'
 const instance = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -9,9 +9,9 @@ const instance = axios.create({
 // Add a request interceptor
 instance.interceptors.request.use(
     function (config) {
-        const userInfo = getUserInfo()
-        if (userInfo?.jwt_token) {
-            config.headers.Authorization = 'Bearer ' + userInfo?.jwt_token
+        const jwtToken = getJwtToken()
+        if (jwtToken) {
+            config.headers.Authorization = 'Bearer ' + jwtToken
         }
         // Do something before request is sent
         return config

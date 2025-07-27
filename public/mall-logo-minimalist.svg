@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <!-- 渐变和滤镜定义 -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#000000" />
+      <stop offset="100%" stop-color="#434343" />
+    </linearGradient>
+    
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD700" />
+      <stop offset="100%" stop-color="#FFA500" />
+    </linearGradient>
+    
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+      <feOffset dx="2" dy="2" result="offsetblur" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.2" />
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect x="100" y="100" width="300" height="300" rx="150" fill="url(#bgGradient)" />
+  
+  <!-- 极简商场图标 -->
+  <g transform="translate(250, 220)" filter="url(#softShadow)">
+    <!-- 商场建筑轮廓 - 极简风格 -->
+    <path d="M-60,-40 L60,-40 L60,40 L-60,40 Z" stroke="white" stroke-width="8" fill="none" />
+    
+    <!-- 屋顶 - 简约三角形 -->
+    <path d="M-70,-40 L0,-80 L70,-40" stroke="white" stroke-width="8" fill="none" />
+    
+    <!-- 门 - 简单线条 -->
+    <path d="M-10,40 L-10,10 L10,10 L10,40" stroke="white" stroke-width="4" fill="none" />
+    
+    <!-- 装饰元素 - 金色点缀 -->
+    <circle cx="0" cy="-20" r="8" fill="url(#accentGradient)" />
+  </g>
+  
+  <!-- 品牌名称 - 极简风格 -->
+  <g transform="translate(250, 330)">
+    <text x="0" y="0" font-family="'Helvetica', sans-serif" font-size="30" font-weight="300" text-anchor="middle" fill="white">ELITE</text>
+    <text x="0" y="35" font-family="'Helvetica', sans-serif" font-size="40" font-weight="700" text-anchor="middle" fill="white">MALL</text>
+    
+    <!-- 装饰线条 -->
+    <line x1="-50" y1="-15" x2="50" y2="-15" stroke="url(#accentGradient)" stroke-width="2" />
+    <line x1="-70" y1="50" x2="70" y2="50" stroke="url(#accentGradient)" stroke-width="2" />
+  </g>
+  
+  <!-- 极简装饰元素 -->
+  <circle cx="250" cy="100" r="5" fill="url(#accentGradient)" />
+  <circle cx="100" cy="250" r="5" fill="url(#accentGradient)" />
+  <circle cx="400" cy="250" r="5" fill="url(#accentGradient)" />
+  <circle cx="250" cy="400" r="5" fill="url(#accentGradient)" />
+</svg>
