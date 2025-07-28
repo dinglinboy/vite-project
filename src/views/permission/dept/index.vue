@@ -44,16 +44,18 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-pagination
-            layout="prev, pager, next, jumper, ->, sizes, total"
-            :total="total"
-            :background="true"
-            :page-sizes="[10, 20, 50, 100]"
-            v-model:current-page="searchOpt.pageNum"
-            v-model:page-size="searchOpt.pageSize"
-            @current-change="getDeptList"
-            @size-change="getDeptList()"
-        />
+        <!-- 分页 -->
+        <div class="pagination-container">
+            <el-pagination
+                v-model:current-page="searchOpt.pageNum"
+                v-model:page-size="searchOpt.pageSize"
+                :page-sizes="[10, 20, 50, 100]"
+                :total="total"
+                layout="total, sizes, prev, pager, next, jumper"
+                @size-change="getDeptList"
+                @current-change="getDeptList"
+            />
+        </div>
         <modify ref="modifyRef" @update:success="getDeptList"></modify>
         <detail ref="detailRef"></detail>
     </el-card>
@@ -124,13 +126,26 @@ const delDeptInfo = async (deptId: string) => {
 </script>
 
 <style lang="scss" scoped>
+.box-card {
+    margin-bottom: 20px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pagination-container {
+    margin-top: 20px;
+    text-align: right;
+}
+
 .el-pagination {
     margin-top: 10px;
 }
-</style>
 
-<style scoped lang="scss">
 .dept-list {
-  padding: 20px;
+    padding: 20px;
 }
 </style>

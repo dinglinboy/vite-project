@@ -53,6 +53,15 @@ const permissionRoutes: RouteRecordRaw = {
                 name: '部门管理'
             },
             component: () => import('@/views/permission/dept/index.vue')
+        },
+        {
+            path: 'resource',
+            name: 'permission-resource',
+            meta: {
+                title: true,
+                name: '资源管理'
+            },
+            component: () => import('@/views/permission/resource/index.vue')
         }
     ]
 }
