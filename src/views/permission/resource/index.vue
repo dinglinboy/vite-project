@@ -44,7 +44,7 @@
         </div>
 
         <el-table :data="tableData" style="width: 100%" v-loading="loading">
-            <el-table-column prop="id" label="ID" width="80" />
+            <el-table-column prop="menuId" label="菜单ID" width="80" />
             <el-table-column prop="menuName" label="菜单名称" min-width="120" />
             <el-table-column prop="sortIndex" label="排序" width="80" />
             <el-table-column prop="menuType" label="菜单类型" width="100">
@@ -54,15 +54,18 @@
                     </el-tag>
                 </template>
             </el-table-column>
-            <el-table-column prop="parentId" label="父菜单" width="120">
+            <el-table-column prop="parentId" label="父菜单" min-width="120">
                 <template #default="{ row }">
-                    <el-tag v-if="row.parentId === 0" type="info" size="small">顶级菜单</el-tag>
-                    <span v-else>{{ getParentMenuName(row.parentId) }}</span>
+                    {{ getParentMenuName(row.parentId) }}
                 </template>
             </el-table-column>
             <el-table-column prop="path" label="路由地址" min-width="150" />
             <el-table-column prop="component" label="组件路径" min-width="150" />
-            <el-table-column prop="icon" label="图标" width="80" />
+            <el-table-column prop="icon" label="图标" width="80">
+                <template #default="{ row }">
+                    <i :class="row.icon" v-if="row.icon"></i>
+                </template>
+            </el-table-column>
             <el-table-column prop="perms" label="权限标识" min-width="120" />
             <el-table-column prop="status" label="状态" width="80">
                 <template #default="{ row }">
@@ -116,12 +119,26 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import ResourceForm from './components/ResourceForm.vue'
 import ResourceDetail from './components/detail.vue'
-import {MenuData, ParentOption} from './interface';
-import type { TagProps } from 'element-plus';
+import { MenuData, ParentOption } from './interface'
+import type { TagProps } from 'element-plus'
+import { 
+  getMenuList, 
+  getMenuTree, 
+  createMenu, 
+  updateMenu, 
+  deleteMenu,
+  type MenuEntity,
+  type ListMenuDto,
+  type CreateMenuDto,
+  type UpdateMenuDto,
+  MenuType,
+  MenuStatus,
+  MenuVisible
+} from '@/api/menu'
 // 响应式数据
 const loading = ref(false)
 const dialogVisible = ref(false)
@@ -132,7 +149,7 @@ const detailRef = ref()
 const searchForm = reactive({
     menuName: '',
     menuType: '',
-    parentId: '',
+    parentId: 0,
     status: ''
 })
 
@@ -144,118 +161,18 @@ const pagination = reactive({
 })
 
 // 表格数据
-const tableData = ref<MenuData[]>([
-    {
-        id: 1,
-        menuName: '用户管理',
-        sortIndex: 1,
-        parentId: 0,
-        path: '/permission/user',
-        query: '',
-        component: 'views/permission/user/index',
-        icon: 'user',
-        menuType: 'C',
-        isCache: '0',
-        isFrame: '1',
-        status: '0',
-        visible: '0',
-        perms: '',
-        createTime: '2024-01-15 10:30:00'
-    },
-    {
-        id: 2,
-        menuName: '添加用户',
-        sortIndex: 1,
-        parentId: 1,
-        path: '',
-        query: '',
-        component: '',
-        icon: '',
-        menuType: 'F',
-        isCache: '0',
-        isFrame: '1',
-        status: '0',
-        visible: '0',
-        perms: 'user:add',
-        createTime: '2024-01-15 10:31:00'
-    },
-    {
-        id: 3,
-        menuName: '删除用户',
-        sortIndex: 2,
-        parentId: 1,
-        path: '',
-        query: '',
-        component: '',
-        icon: '',
-        menuType: 'F',
-        isCache: '0',
-        isFrame: '1',
-        status: '1',
-        visible: '0',
-        perms: 'user:delete',
-        createTime: '2024-01-15 10:32:00'
-    },
-    {
-        id: 4,
-        menuName: '权限管理',
-        sortIndex: 2,
-        parentId: 0,
-        path: '/permission',
-        query: '',
-        component: '',
-        icon: 'lock',
-        menuType: 'M',
-        isCache: '0',
-        isFrame: '1',
-        status: '0',
-        visible: '0',
-        perms: '',
-        createTime: '2024-01-15 10:33:00'
-    },
-    {
-        id: 5,
-        menuName: '角色管理',
-        sortIndex: 1,
-        parentId: 4,
-        path: '/permission/role',
-        query: '',
-        component: 'views/permission/role/index',
-        icon: 'peoples',
-        menuType: 'C',
-        isCache: '0',
-        isFrame: '1',
-        status: '0',
-        visible: '0',
-        perms: '',
-        createTime: '2024-01-15 10:34:00'
-    },
-    {
-        id: 6,
-        menuName: '添加角色',
-        sortIndex: 1,
-        parentId: 5,
-        path: '',
-        query: '',
-        component: '',
-        icon: '',
-        menuType: 'F',
-        isCache: '0',
-        isFrame: '1',
-        status: '0',
-        visible: '0',
-        perms: 'role:add',
-        createTime: '2024-01-15 10:35:00'
-    }
-])
+const tableData = ref<MenuEntity[]>([])
+
+// 父菜单选项数据
+const parentMenuData = ref<MenuEntity[]>([])
 
 // 父菜单选项（只包含目录和菜单类型）
 const parentResourceOptions = computed(() => {
-  return tableData.value
-    .filter(item => item.menuType === 'M' || item.menuType === 'C')
+  return parentMenuData.value
+    .filter(item => item.menuType === MenuType.DIRECTORY || item.menuType === MenuType.MENU)
     .map(item => ({
       label: item.menuName,
-      value: item.id
+      value: item.menuId!
     })) as ParentOption[]
 })
 
@@ -303,19 +220,50 @@ const getVisibleTagType = (visible: string) => {
 }
 
 // 获取父菜单名称
-const getParentMenuName = (parentId: number) => {
-  const parent = tableData.value.find(item => item.id === parentId)
+const getParentMenuName = (parentId: number | null) => {
+  if (!parentId) return '顶级菜单'
+  const parent = parentMenuData.value.find(item => item.menuId === parentId)
   return parent ? parent.menuName : '未知'
 }
 
 // 加载数据
-const loadData = () => {
+const loadData = async () => {
   loading.value = true
-  // 模拟API调用
-  setTimeout(() => {
-    pagination.total = tableData.value.length
+  try {
+    const params: ListMenuDto = {
+      pageNum: pagination.currentPage,
+      pageSize: pagination.pageSize,
+      menuName: searchForm.menuName || undefined,
+      menuType: searchForm.menuType as any || undefined,
+      parentId: searchForm.parentId || 0,
+      status: searchForm.status as MenuStatus || undefined
+    }
+    
+    const response = await getMenuList(params)
+    if (response.code === 0) {
+      tableData.value = response.result.data
+      pagination.total = response.result.total
+    } else {
+      ElMessage.error(response.msg || '获取菜单列表失败')
+    }
+  } catch (error) {
+    console.error('获取菜单列表失败:', error)
+    ElMessage.error('获取菜单列表失败')
+  } finally {
     loading.value = false
-  }, 500)
+  }
+}
+
+// 加载父菜单选项
+const loadParentMenuOptions = async () => {
+  try {
+    const response = await getMenuTree()
+    if (response.code === 0) {
+      parentMenuData.value = response.result
+    }
+  } catch (error) {
+    console.error('获取父菜单选项失败:', error)
+  }
 }
 
 // 搜索
@@ -328,7 +276,7 @@ const handleSearch = () => {
 const handleReset = () => {
   searchForm.menuName = ''
   searchForm.menuType = ''
-  searchForm.parentId = ''
+  searchForm.parentId = 0
   searchForm.status = ''
   loadData()
 }
@@ -340,18 +288,54 @@ const handleAdd = () => {
 }
 
 // 编辑
-const handleEdit = (row: MenuData) => {
-  currentFormData.value = { ...row }
+const handleEdit = (row: MenuEntity) => {
+  // 转换数据格式以适配现有的表单组件
+  const formData: MenuData = {
+    id: row.menuId,
+    menuName: row.menuName,
+    sortIndex: row.sortIndex || 0,
+    parentId: row.parentId || 0,
+    path: row.path || '',
+    query: row.query || '',
+    component: row.component || '',
+    icon: row.icon || '',
+    menuType: row.menuType,
+    isCache: row.isCache || '0',
+    isFrame: row.isFrame || '1',
+    status: row.status || '0',
+    visible: row.visible || '0',
+    perms: row.perms || '',
+    createTime: row.createTime || ''
+  }
+  currentFormData.value = formData
   dialogVisible.value = true
 }
 
 // 详情
-const handleDetail = (row: MenuData) => {
-  detailRef.value?.openDialog(row)
+const handleDetail = (row: MenuEntity) => {
+  // 转换数据格式以适配现有的详情组件
+  const detailData: MenuData = {
+    id: row.menuId,
+    menuName: row.menuName,
+    sortIndex: row.sortIndex || 0,
+    parentId: row.parentId || 0,
+    path: row.path || '',
+    query: row.query || '',
+    component: row.component || '',
+    icon: row.icon || '',
+    menuType: row.menuType,
+    isCache: row.isCache || '0',
+    isFrame: row.isFrame || '1',
+    status: row.status || '0',
+    visible: row.visible || '0',
+    perms: row.perms || '',
+    createTime: row.createTime || ''
+  }
+  detailRef.value?.openDialog(detailData)
 }
 
 // 删除
-const handleDelete = (row: MenuData) => {
+const handleDelete = async (row: MenuEntity) => {
   ElMessageBox.confirm(
     `确定要删除菜单"${row.menuName}"吗？`,
     '提示',
@@ -360,13 +344,19 @@ const handleDelete = (row: MenuData) => {
       cancelButtonText: '取消',
       type: 'warning'
     }
-  ).then(() => {
-    // 模拟删除操作
-    const index = tableData.value.findIndex(item => item.id === row.id)
-    if (index > -1) {
-      tableData.value.splice(index, 1)
-      ElMessage.success('删除成功')
-      loadData()
+  ).then(async () => {
+    try {
+      const response = await deleteMenu(row.menuId!)
+      if (response.code === 0) {
+        ElMessage.success('删除成功')
+        loadData()
+        loadParentMenuOptions() // 重新加载父菜单选项
+      } else {
+        ElMessage.error(response.msg || '删除失败')
+      }
+    } catch (error) {
+      console.error('删除菜单失败:', error)
+      ElMessage.error('删除失败')
     }
   }).catch(() => {
     ElMessage.info('已取消删除')
@@ -374,23 +364,68 @@ const handleDelete = (row: MenuData) => {
 }
 
 // 表单提交
-const handleFormSubmit = (formData: MenuData): void => {
-  if (formData.id) {
-    // 编辑
-    const index = tableData.value.findIndex(item => item.id === formData.id)
-    if (index > -1) {
-      tableData.value[index] = { ...formData, createTime: tableData.value[index].createTime }
+const handleFormSubmit = async (formData: MenuData) => {
+  try {
+    if (formData.id) {
+      // 编辑模式
+      const updateData: UpdateMenuDto = {
+        menuId: formData.id,
+        menuName: formData.menuName,
+        sortIndex: formData.sortIndex,
+        parentId: formData.parentId || 0,
+        path: formData.path,
+        query: formData.query,
+        component: formData.component,
+        icon: formData.icon,
+        menuType: formData.menuType as MenuType,
+        isCache: formData.isCache,
+        isFrame: formData.isFrame,
+        status: formData.status as MenuStatus,
+        visible: formData.visible as MenuVisible,
+        perms: formData.perms
+      }
+      
+      const response = await updateMenu(updateData)
+      if (response.code === 0) {
+        ElMessage.success('更新成功')
+        dialogVisible.value = false
+        loadData()
+        loadParentMenuOptions() // 重新加载父菜单选项
+      } else {
+        ElMessage.error(response.msg || '更新失败')
+      }
+    } else {
+      // 新增模式
+      const createData: CreateMenuDto = {
+        menuName: formData.menuName,
+        sortIndex: formData.sortIndex,
+        parentId: formData.parentId || 0,
+        path: formData.path,
+        query: formData.query,
+        component: formData.component,
+        icon: formData.icon,
+        menuType: formData.menuType as MenuType,
+        isCache: formData.isCache,
+        isFrame: formData.isFrame,
+        status: formData.status as MenuStatus,
+        visible: formData.visible as MenuVisible,
+        perms: formData.perms
+      }
+      
+      const response = await createMenu(createData)
+      if (response.code === 0) {
+        ElMessage.success('创建成功')
+        dialogVisible.value = false
+        loadData()
+        loadParentMenuOptions() // 重新加载父菜单选项
+      } else {
+        ElMessage.error(response.msg || '创建失败')
+      }
     }
-  } else {
-    // 新增
-    const newId = Math.max(...tableData.value.map(item => item.id)) + 1
-    tableData.value.push({
-      ...formData,
-      id: newId,
-      createTime: new Date().toLocaleString()
-    })
+  } catch (error) {
+    console.error('提交表单失败:', error)
+    ElMessage.error('操作失败')
   }
-  loadData()
 }
 
 // 分页
@@ -405,7 +440,10 @@ const handleCurrentChange = (page: number) => {
 }
 
 // 初始化
-loadData()
+onMounted(() => {
+  loadParentMenuOptions()
+  loadData()
+})
 </script>
 
 <style lang="scss" scoped>
