@@ -255,7 +255,7 @@ const filteredTableData = computed(() => {
 
 type TagType = 'success' | 'warning' | 'info' | 'danger'
 // 获取状态类型
-const getStatusType = (status: string): TagType => {
+const getStatusType = (status: string) => {
     const statusMap: Record<string, string> = {
         已完成: 'success',
         处理中: 'warning',

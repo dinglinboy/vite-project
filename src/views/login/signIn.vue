@@ -1,11 +1,16 @@
 <template>
     <div class="login-page">
         <div class="particles">
-            <div v-for="n in 20" :key="n" class="particle" :style="{ '--i': n }"></div>
+            <div
+                v-for="n in 20"
+                :key="n"
+                class="particle"
+                :style="{ '--i': n }"
+            ></div>
         </div>
         <div class="mall-logo">
             <img src="/mall-logo-modern.svg" height="120" />
-            <div class="mall-name">LUXURY MALL</div>
+            <div class="mall-name">DingDIng-Mall</div>
         </div>
         <el-form
             class="login-page-form"
@@ -110,12 +115,14 @@ const submit = async (formEl: FormInstance | undefined) => {
                     })
                 }
                 setJwtToken(res.result.jwtToken)
-                getUserInfoByUsername({ username: form.username }).then(userRes => {
-                    console.log(userRes)
-                    if (userRes.code === 0) {
-                        setUserInfo(userRes.result)
+                getUserInfoByUsername({ username: form.username }).then(
+                    (userRes) => {
+                        console.log(userRes)
+                        if (userRes.code === 0) {
+                            setUserInfo(userRes.result)
+                        }
                     }
-                })
+                )
                 const { redirect } = router.currentRoute.value.query
                 router.push((redirect as LocationQueryValue) || '/')
             })
@@ -139,27 +146,25 @@ const initForm = () => {
 }
 // 添加鼠标移动效果
 const handleMouseMove = (e: MouseEvent) => {
-    const particles = document.querySelectorAll('.particle');
-    const x = e.clientX / window.innerWidth;
-    const y = e.clientY / window.innerHeight;
-    
+    const particles = document.querySelectorAll('.particle')
+    const x = e.clientX / window.innerWidth
+    const y = e.clientY / window.innerHeight
     particles.forEach((particle, index) => {
-        const el = particle as HTMLElement;
-        const factor = (index + 1) * 0.1;
-        const offsetX = (x - 0.5) * factor * 100;
-        const offsetY = (y - 0.5) * factor * 100;
-        
-        el.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-    });
+        const el = particle as HTMLElement
+        const factor = (index + 1) * 0.1
+        const offsetX = (x - 0.5) * factor * 100
+        const offsetY = (y - 0.5) * factor * 100
+        el.style.transform = `translate(${offsetX}px, ${offsetY}px)`
+    })
 }
 
 onMounted(() => {
-    initForm();
-    window.addEventListener('mousemove', handleMouseMove);
+    initForm()
+    window.addEventListener('mousemove', handleMouseMove)
 })
 
 onBeforeUnmount(() => {
-    window.removeEventListener('mousemove', handleMouseMove);
+    window.removeEventListener('mousemove', handleMouseMove)
 })
 </script>
 <style lang="scss">

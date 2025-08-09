@@ -10,7 +10,6 @@
                 <p class="page-subtitle">管理您的个人信息和偏好设置</p>
             </div>
         </div>
-
         <div class="profile-content">
             <el-row :gutter="24">
                 <!-- 头像卡片 -->
