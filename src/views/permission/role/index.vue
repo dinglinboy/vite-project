@@ -23,7 +23,9 @@
                             >查询</el-button
                         >
                         <el-button @click="resetHandler">重置</el-button>
-                        <el-button type="primary" @click="openModifyDialog(null)"
+                        <el-button
+                            type="primary"
+                            @click="openModifyDialog(null)"
                             >新增角色</el-button
                         >
                     </el-form-item>
@@ -154,10 +156,6 @@ const submitAddUser = async () => {
 }
 </script>
 <style lang="scss" scoped>
-.box-card {
-    margin-bottom: 20px;
-}
-
 .card-header {
     display: flex;
     justify-content: space-between;

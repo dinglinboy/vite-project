@@ -170,10 +170,6 @@ const addHandler = (data = null) => {
 const submitAddUser = async () => ({})
 </script>
 <style lang="scss" scoped>
-.box-card {
-    margin-bottom: 20px;
-}
-
 .card-header {
     display: flex;
     justify-content: space-between;

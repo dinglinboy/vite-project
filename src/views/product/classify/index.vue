@@ -11,19 +11,28 @@
                             >查询</el-button
                         >
                         <el-button @click="resetForm(formRef)">重置</el-button>
-                        <el-button type="primary" @click="setClassifyModal('add')"
+                        <el-button
+                            type="primary"
+                            @click="setClassifyModal('add')"
                             >添加</el-button
                         >
                     </el-form-item>
                 </el-form>
             </div>
         </template>
-        <el-table :data="tableData" empty-text="无数据" border style="width: 100%">
+        <el-table
+            :data="tableData"
+            empty-text="无数据"
+            border
+            style="width: 100%"
+        >
             <el-table-column prop="name" label="分类名称" />
             <el-table-column prop="id" label="分类ID" />
             <el-table-column label="操作" width="100">
                 <template #default="{ row }">
-                    <el-icon @click="removeClassify(row)"><iconDelete /></el-icon>
+                    <el-icon @click="removeClassify(row)"
+                        ><iconDelete
+                    /></el-icon>
                     <el-icon @click="setClassifyModal('edit', row)"
                         ><iconEdit
                     /></el-icon>
@@ -43,7 +52,9 @@
             :title="classifyModal.modalTitle"
             center
         >
-            <el-input v-model:model-value="classifyModal.classifyName"></el-input>
+            <el-input
+                v-model:model-value="classifyModal.classifyName"
+            ></el-input>
             <template #footer>
                 <el-button
                     type="primary"
@@ -67,7 +78,7 @@ import {
 } from '@/api/index'
 import type { Action } from 'element-plus'
 import { ClassifyResponse } from '@/api/types'
-import { Result } from '@/interfaces/base.interface';
+import { Result } from '@/interfaces/base.interface'
 
 const form = reactive({
     classifyName: ''
@@ -159,7 +170,7 @@ const setClassifyModal = (
     classify?: { name: string; id: string }
 ) => {
     classifyModal.modalType = modalType
-    classifyModal.modalTitle = (modalTitleMap[modalType as ModalType]).title
+    classifyModal.modalTitle = modalTitleMap[modalType as ModalType].title
     classifyModal.showModal = true
     classifyModal.classifyName = ''
     classifyModal.id = ''
@@ -170,7 +181,8 @@ const setClassifyModal = (
 }
 // 提交添加分类的数据
 const submitClassify = async (modalType: string) => {
-    const { successText, failedText, api } = (modalTitleMap[modalType as ModalType])
+    const { successText, failedText, api } =
+        modalTitleMap[modalType as ModalType]
     const res = await api({
         name: classifyModal.classifyName,
         id: classifyModal.id

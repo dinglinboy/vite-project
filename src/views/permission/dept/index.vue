@@ -14,10 +14,14 @@
                             type="primary"
                             class="button"
                             @click="getDeptList()"
-                            >查询</el-button>
+                            >查询</el-button
+                        >
                         <el-button @click="resetHandler">重置</el-button>
-                        <el-button type="primary" @click="openModifyDialog(null)"
-                            >新增部门</el-button>
+                        <el-button
+                            type="primary"
+                            @click="openModifyDialog(null)"
+                            >新增部门</el-button
+                        >
                     </el-form-item>
                 </el-form>
             </div>
@@ -37,10 +41,12 @@
             <el-table-column label="操作">
                 <template #default="{ row }">
                     <el-button type="primary" @click="openModifyDialog(row)"
-                        >编辑</el-button>
+                        >编辑</el-button
+                    >
                     <el-button @click="openDetailDialog(row)">详情</el-button>
                     <el-button type="danger" @click="delDeptInfo(row.deptId)"
-                        >删除</el-button>
+                        >删除</el-button
+                    >
                 </template>
             </el-table-column>
         </el-table>
@@ -78,7 +84,9 @@ const searchOpt = reactive({
 })
 const total = ref(0)
 const deptList = ref<Dept[]>([])
-const modifyRef = ref<{ openDialog: (deptInfo: Dept | null) => void } | null>(null)
+const modifyRef = ref<{ openDialog: (deptInfo: Dept | null) => void } | null>(
+    null
+)
 const currentDeptInfo = ref<Dept | null>(null)
 const detailRef = ref<{ opendialog: (deptInfo: Dept) => void } | null>(null)
 
@@ -126,10 +134,6 @@ const delDeptInfo = async (deptId: string) => {
 </script>
 
 <style lang="scss" scoped>
-.box-card {
-    margin-bottom: 20px;
-}
-
 .card-header {
     display: flex;
     justify-content: space-between;
