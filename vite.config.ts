@@ -34,9 +34,9 @@ export default defineConfig({
                 rewrite: (path) => path.replace(/^\/api/, '') // 重写路径
             },
             '/dev/file': {
-                target: 'http://localhost:3000', // 后端服务地址s
+                target: 'http://localhost:3000', // 后端服务地址
                 changeOrigin: true, // 允许跨域
-                rewrite: (path) => path.replace(/^\/file/, 'file') // 重写路径
+                rewrite: (path) => path.replace(/^\/dev\/file/, '/file') // 去掉 /dev 前缀
             }
        } 
     }
