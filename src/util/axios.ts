@@ -1,5 +1,11 @@
 import axios from 'axios'
-import { getJwtToken } from '@/util/util'
+import { ElMessage } from 'element-plus'
+import {
+    clearJwtToken,
+    clearUserInfo,
+    clearLoginToken,
+    getJwtToken
+} from '@/util/util'
 import router from '@/router/index'
 const instance = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -31,10 +37,17 @@ instance.interceptors.response.use(
     },
     function (error) {
         if (error.response && error.response.status === 401) {
-            // token续签方式1:
-            //清空当前vuex保存的token（我们这的vuex和本地已经建立了关系，相当于也清空了本地token）
+            // token 失效：清除本地登录态后跳转登录页
             // push()会产生历史记录 而replace不会有历史记录
-            router.push('/login')
+            clearJwtToken()
+            clearUserInfo()
+            clearLoginToken()
+            router.replace('/login')
+        }
+        if (error.response && error.response.status === 403) {
+            ElMessage.error(
+                error.response.data?.message || '没有访问权限，请联系管理员'
+            )
         }
         // Any status codes that falls outside the range of 2xx cause this function to trigger
         // Do something with response error

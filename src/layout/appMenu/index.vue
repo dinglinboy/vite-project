@@ -8,57 +8,55 @@
         :collapse="publicStore.isCollapse"
         router
     >
-        <el-menu-item index="/">
-            <el-icon><icon-menu /></el-icon>
-            <span>首页</span>
-        </el-menu-item>
-        <el-sub-menu index="/product">
-            <template #title>
-                <el-icon><location /></el-icon>
-                <span>商品</span>
-            </template>
-            <el-menu-item index="/product/list">商品列表</el-menu-item>
-            <el-menu-item index="/product/classify">商品分类</el-menu-item>
-            <el-menu-item index="/product/attr">商品规格</el-menu-item>
-            <el-menu-item index="/product/reply">商品评论</el-menu-item>
-        </el-sub-menu>
-        <el-sub-menu index="/order">
-            <template #title>
-                <el-icon><document /></el-icon>
-                <span>订单</span>
-            </template>
-            <el-menu-item index="/order/list">订单列表</el-menu-item>
-        </el-sub-menu>
-        <el-menu-item index="/media">
-            <el-icon><BellFilled /></el-icon>
-            <span>媒体</span>
-        </el-menu-item>
-        <el-sub-menu index="/permission">
-            <template #title>
-                <el-icon><setting /></el-icon>
-                <span>权限</span>
-            </template>
-            <el-menu-item index="/permission/role">角色</el-menu-item>
-            <el-menu-item index="/permission/admin">管理员</el-menu-item>
-            <el-menu-item index="/permission/rule">权限规则</el-menu-item>
-            <el-menu-item index="/permission/user">用户管理</el-menu-item>
-            <el-menu-item index="/permission/dept">部门管理</el-menu-item>
-            <el-menu-item index="/permission/resource">资源管理</el-menu-item>
-        </el-sub-menu>
+        <template v-for="item in userStore.routers" :key="item.menuId">
+            <!-- 目录：有子菜单 -->
+            <el-sub-menu
+                v-if="item.children && item.children.length"
+                :index="resolvePath(item)"
+            >
+                <template #title>
+                    <el-icon>
+                        <component :is="iconMap[item.icon] || iconMap.Menu" />
+                    </el-icon>
+                    <span>{{ item.menuName }}</span>
+                </template>
+                <el-menu-item
+                    v-for="child in item.children"
+                    :key="child.menuId"
+                    :index="resolvePath(item, child)"
+                >
+                    {{ child.menuName }}
+                </el-menu-item>
+            </el-sub-menu>
+            <!-- 菜单：无子菜单 -->
+            <el-menu-item v-else :index="resolvePath(item)">
+                <el-icon>
+                    <component :is="iconMap[item.icon] || iconMap.Menu" />
+                </el-icon>
+                <span>{{ item.menuName }}</span>
+            </el-menu-item>
+        </template>
     </el-menu>
 </template>
 <script lang="ts" setup>
-import {
-    Document,
-    Menu as IconMenu,
-    Location,
-    Setting,
-    BellFilled
-} from '@element-plus/icons-vue'
 import { usePublicStore } from '@/store'
+import { useUserStore } from '@/store/user'
 import { useRoute } from 'vue-router'
+import type { MenuItem } from '@/api/permission'
+import { iconMap } from '@/util/iconMap'
+
 const route = useRoute()
 const publicStore = usePublicStore()
+const userStore = useUserStore()
+
+/**
+ * 拼接菜单跳转路径：一级为绝对路径，二级为相对路径
+ */
+const resolvePath = (parent: MenuItem, child?: MenuItem): string => {
+    if (!child) return parent.path
+    if (parent.path === '/') return `/${child.path}`
+    return `${parent.path}/${child.path}`
+}
 </script>
 <style scoped>
 .el-menu {

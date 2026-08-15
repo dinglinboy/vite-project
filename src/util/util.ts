@@ -40,6 +40,19 @@ export const setJwtToken = (token: string) => {
     localStorage.setItem('jwt_token', token)
 }
 
+// 登录 token（uuid），用于服务端登出时删除 redis 记录
+export const setLoginToken = (token: string) => {
+    localStorage.setItem('login_token', token)
+}
+
+export const getLoginToken = (): string | null => {
+    return localStorage.getItem('login_token')
+}
+
+export const clearLoginToken = () => {
+    localStorage.removeItem('login_token')
+}
+
 export const getJwtToken = (): string | null => {
     return localStorage.getItem('jwt_token')
 }

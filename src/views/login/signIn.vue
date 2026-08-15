@@ -67,11 +67,15 @@ import { User, Lock } from '@element-plus/icons-vue'
 import { reactive, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter, LocationQueryValue } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
-import { setUserInfo, getLoginInfo, setLoginInfo } from '@/util/util'
+import {
+    setUserInfo,
+    getLoginInfo,
+    setLoginInfo,
+    setJwtToken,
+    setLoginToken
+} from '@/util/util'
 import { login } from '@/api/index'
-import { getUserInfoByUsername } from '@/api/user'
 import { ElMessage } from 'element-plus'
-import { setJwtToken } from '@/util/util'
 const router = useRouter()
 // 设置表单
 const form = reactive({
@@ -115,14 +119,9 @@ const submit = async (formEl: FormInstance | undefined) => {
                     })
                 }
                 setJwtToken(res.result.jwtToken)
-                getUserInfoByUsername({ username: form.username }).then(
-                    (userRes) => {
-                        console.log(userRes)
-                        if (userRes.code === 0) {
-                            setUserInfo(userRes.result)
-                        }
-                    }
-                )
+                setLoginToken(res.result.token)
+                // 用户信息/角色/权限/菜单由路由守卫统一加载
+                setUserInfo({ username: form.username })
                 const { redirect } = router.currentRoute.value.query
                 router.push((redirect as LocationQueryValue) || '/')
             })

@@ -23,7 +23,10 @@
                             >查询</el-button
                         >
                         <el-button @click="resetHandler">重置</el-button>
-                        <el-button type="primary" @click="addHandler(null)"
+                        <el-button
+                            v-permission="['permission:user:add']"
+                            type="primary"
+                            @click="addHandler(null)"
                             >新增用户</el-button
                         >
                     </el-form-item>
@@ -43,13 +46,30 @@
                     dayjs(row.createTime).format('YYYY-MM-DD hh:mm:ss')
                 }}</template>
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="260">
                 <template #default="{ row }">
-                    <el-button type="primary" @click="addHandler(row)"
+                    <el-button
+                        v-permission="['permission:user:edit']"
+                        type="primary"
+                        link
+                        @click="addHandler(row)"
                         >编辑</el-button
                     >
-                    <el-button>详情</el-button>
-                    <el-button type="danger">删除</el-button>
+                    <el-button
+                        v-permission="['permission:user:edit']"
+                        type="primary"
+                        link
+                        @click="openAssignRole(row)"
+                        >分配角色</el-button
+                    >
+                    <el-button type="primary" link>详情</el-button>
+                    <el-button
+                        v-permission="['permission:user:remove']"
+                        type="danger"
+                        link
+                        @click="delUser(row)"
+                        >删除</el-button
+                    >
                 </template>
             </el-table-column>
         </el-table>
@@ -65,37 +85,59 @@
                 @current-change="getUserList"
             />
         </div>
-    </el-card>
-    <el-dialog title="新增用户" v-model="formFlag">
-        <el-form ref="form" label-width="100px">
-            <el-form-item label="用户名">
-                <el-input
-                    v-model="form.username"
-                    placeholder="请输入用户名"
-                ></el-input>
-            </el-form-item>
-            <el-form-item label="密码">
-                <el-input
-                    v-model="form.password"
-                    placeholder="请输入密码"
-                ></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="submitAddUser"
-                    >提交</el-button
+        <Modify ref="modifyRef" @update:success="getUserList" />
+        <!-- 分配角色对话框 -->
+        <el-dialog
+            v-model="assignRoleVisible"
+            title="分配角色"
+            width="460px"
+            destroy-on-close
+        >
+            <el-form label-width="80px">
+                <el-form-item label="用户">
+                    {{ currentRow?.username }}（{{ currentRow?.nickname }}）
+                </el-form-item>
+                <el-form-item label="角色">
+                    <el-select
+                        v-model="assignRoleIds"
+                        multiple
+                        placeholder="请选择角色"
+                        style="width: 100%"
+                    >
+                        <el-option
+                            v-for="item in roleOptions"
+                            :key="item.roleId"
+                            :label="item.roleName"
+                            :value="item.roleId as number"
+                        ></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <template #footer>
+                <el-button @click="assignRoleVisible = false">取 消</el-button>
+                <el-button
+                    type="primary"
+                    :loading="assignLoading"
+                    @click="submitAssignRole"
+                    >确 定</el-button
                 >
-            </el-form-item>
-        </el-form>
-    </el-dialog>
-    <Modify ref="modifyRef" />
+            </template>
+        </el-dialog>
+    </el-card>
 </template>
 
 <script lang="ts" setup>
-import { getUserListApi } from '@/api/user'
+import {
+    getUserListApi,
+    getUserInfoApi,
+    deleteUserApi,
+    updateAuthRoleApi
+} from '@/api/user'
+import { getRoleListApi } from '@/api/role'
 import { onMounted, ref, reactive } from 'vue'
-import { getUsersResponse, UserDto } from '@/api/types/response'
+import { getUsersResponse, UserDto, Role } from '@/api/types/response'
 import dayjs from 'dayjs'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import Modify from './modify.vue'
 // 查询条件对象
 const searchOpt = reactive({
@@ -124,50 +166,96 @@ const getUserList = async (pageNum = 1) => {
     searchOpt.pageNum = pageNum
     searchOpt.username = searchOpt.username.trim()
     searchOpt.nickname = searchOpt.nickname.trim()
-    // 尝试调用接口获取用户列表
     try {
-        // 调用获取用户列表的 API，传入搜索条件对象的副本
         const res: getUsersResponse = await getUserListApi({ ...searchOpt })
-        // 检查响应状态码是否不等于 0，若不等于 0 则表示请求失败
         if (res.code !== 0) {
-            // 显示错误消息并终止函数执行
-            return ElMessage.error(res.message)
+            return ElMessage.error(res.message || res.msg || '查询失败')
         }
-        // 将接口返回的用户列表数据赋值给 userList 响应式对象，若数据不存在则赋值为空数组
         userList.value = res?.result?.data || []
-        // 将接口返回的用户总数赋值给 total 响应式对象
         total.value = res?.result?.total
     } catch (error) {
-        // 捕获请求过程中可能出现的错误并打印到控制台
         console.error(error)
     }
 }
 
-// 点击重置按钮时触发的处理函数
 const resetHandler = () => {
-    // 清空搜索用户名输入框的内容
     searchOpt.username = ''
     searchOpt.nickname = ''
-    // 重新调用获取用户列表的函数
     getUserList()
 }
 
-// 定义表单数据的响应式引用，包含用户名和密码字段
-const form = ref({
-    username: '',
-    password: ''
-})
-// 定义控制新增用户对话框显示与隐藏的响应式引用
-const formFlag = ref(false)
-
-// 点击新增用户按钮时触发的处理函数
-const addHandler = (data = null) => {
-    // 显示新增用户对话框
+// 新增/编辑用户
+const addHandler = (data: UserDto | null) => {
     modifyRef?.value?.openDialog(data)
 }
 
-// 点击提交新增用户表单时触发的异步处理函数
-const submitAddUser = async () => ({})
+// 删除用户
+const delUser = async (row: UserDto) => {
+    try {
+        await ElMessageBox.confirm(
+            `确定删除用户「${row.username}」吗？`,
+            '提示',
+            {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }
+        )
+    } catch (error) {
+        return
+    }
+    const res = await deleteUserApi(String(row.id))
+    if (res.code !== 0) {
+        return ElMessage.error(res.msg || res.message || '删除失败')
+    }
+    ElMessage.success('删除成功')
+    getUserList()
+}
+
+// ===== 分配角色 =====
+const assignRoleVisible = ref(false)
+const assignLoading = ref(false)
+const assignRoleIds = ref<number[]>([])
+const roleOptions = ref<Role[]>([])
+const currentRow = ref<UserDto | null>(null)
+
+const openAssignRole = async (row: UserDto) => {
+    currentRow.value = row
+    assignRoleVisible.value = true
+    // 并行拉角色列表 + 用户已绑角色
+    const [roleRes, userRes] = await Promise.all([
+        getRoleListApi({ pageNum: 1, pageSize: 1000 }),
+        getUserInfoApi(String(row.id))
+    ])
+    if (roleRes.code === 0) {
+        roleOptions.value = roleRes?.result?.data || []
+    }
+    if (userRes.code === 0) {
+        assignRoleIds.value = (userRes.result as any)?.roleIds || []
+    }
+}
+
+const submitAssignRole = async () => {
+    if (!currentRow.value?.id) return
+    assignLoading.value = true
+    try {
+        const res = await updateAuthRoleApi({
+            userId: currentRow.value.id,
+            roleIds: assignRoleIds.value
+        })
+        if (res.code !== 0) {
+            return ElMessage.error(res.msg || res.message || '分配失败')
+        }
+        ElMessage.success('分配成功')
+        assignRoleVisible.value = false
+        getUserList()
+    } catch (error) {
+        console.error(error)
+        ElMessage.error('分配失败，请稍后再试')
+    } finally {
+        assignLoading.value = false
+    }
+}
 </script>
 <style lang="scss" scoped>
 .card-header {

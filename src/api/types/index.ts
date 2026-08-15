@@ -1,4 +1,4 @@
-import { PagingDto, Result } from '@/interfaces/base.interface';
+import { PagingDto, Result } from '@/interfaces/base.interface'
 export interface CoffeesResponse {
     name: string
     _id: string
@@ -31,9 +31,9 @@ export interface ClassifyResponse {
     result: []
 }
 
-export interface UserListDto extends Result  {
+export interface UserListDto extends Result {
     result: {
-        data: User[],
+        data: User[]
         total: number
     }
 }
