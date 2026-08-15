@@ -70,10 +70,14 @@
     height: 100vh;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
-    
+    background:
+        radial-gradient(1100px 520px at 82% -8%, rgba(37, 99, 235, 0.38), transparent 60%),
+        radial-gradient(900px 480px at -12% 112%, rgba(234, 88, 12, 0.2), transparent 60%),
+        radial-gradient(700px 500px at 55% 120%, rgba(59, 130, 246, 0.22), transparent 55%),
+        linear-gradient(160deg, #0b1220 0%, #14203f 55%, #1a2e63 100%);
+    background-size: 100% 100%;
+    animation: gradient 18s ease infinite;
+
     // 粒子效果
     .particles {
         position: absolute;
@@ -84,13 +88,13 @@
         overflow: hidden;
         z-index: 0;
     }
-    
+
     .particle {
         position: absolute;
         width: 80px;
         height: 80px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+        background: radial-gradient(circle, rgba(147, 197, 253, 0.55) 0%, rgba(255, 255, 255, 0) 70%);
         top: calc(var(--i) * 5%);
         left: calc(var(--i) * 5%);
         animation: particle-animation calc(15s + (var(--i) * 0.5s)) linear infinite;
@@ -99,7 +103,7 @@
         opacity: 0;
         z-index: 0;
     }
-    
+
     &::before {
         content: '';
         position: absolute;
@@ -107,52 +111,76 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><circle cx="10" cy="10" r="2" fill="white" opacity="0.3"/><circle cx="30" cy="40" r="3" fill="white" opacity="0.3"/><circle cx="50" cy="20" r="1" fill="white" opacity="0.3"/><circle cx="70" cy="30" r="2" fill="white" opacity="0.3"/><circle cx="90" cy="60" r="3" fill="white" opacity="0.3"/><circle cx="20" cy="80" r="2" fill="white" opacity="0.3"/><circle cx="40" cy="60" r="1" fill="white" opacity="0.3"/><circle cx="60" cy="90" r="3" fill="white" opacity="0.3"/><circle cx="80" cy="70" r="2" fill="white" opacity="0.3"/></svg>');
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><circle cx="10" cy="10" r="2" fill="white" opacity="0.25"/><circle cx="30" cy="40" r="3" fill="white" opacity="0.25"/><circle cx="50" cy="20" r="1" fill="white" opacity="0.25"/><circle cx="70" cy="30" r="2" fill="white" opacity="0.25"/><circle cx="90" cy="60" r="3" fill="white" opacity="0.25"/><circle cx="20" cy="80" r="2" fill="white" opacity="0.25"/><circle cx="40" cy="60" r="1" fill="white" opacity="0.25"/><circle cx="60" cy="90" r="3" fill="white" opacity="0.25"/><circle cx="80" cy="70" r="2" fill="white" opacity="0.25"/></svg>');
         background-size: 300px 300px;
         opacity: 0.5;
         z-index: 0;
     }
-    
-    // 共享表单样式
+
+    // 共享表单样式（暗色玻璃拟态）
     &-form {
         margin: auto;
-        padding: 20px;
-        border-radius: 15px;
+        padding: 32px 28px;
+        border-radius: 20px;
         width: 500px;
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        background: rgba(255, 255, 255, 0.07);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         animation: formAppear 1s ease forwards;
         position: relative;
         z-index: 1;
         transition: all 0.3s ease;
-        
+
+        .el-checkbox__inner {
+            border-color: rgba(255, 255, 255, 0.45);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .el-checkbox.is-checked .el-checkbox__inner {
+            background: var(--mall-primary);
+            border-color: var(--mall-primary);
+        }
+
         .user-inp {
             height: 50px;
             font-size: 18px;
             margin-bottom: 10px;
+            --el-input-bg-color: rgba(255, 255, 255, 0.06);
+            --el-input-border-color: rgba(255, 255, 255, 0.14);
+            --el-input-hover-border-color: rgba(147, 197, 253, 0.5);
+            --el-input-focus-border-color: var(--mall-primary);
+            --el-input-placeholder-color: rgba(255, 255, 255, 0.4);
+            --el-input-text-color: #fff;
+            --el-input-icon-color: rgba(255, 255, 255, 0.55);
+
             .el-input__wrapper {
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14) inset;
                 transition: all 0.3s ease;
                 &:focus-within {
-                    box-shadow: 0 4px 20px rgba(35, 166, 213, 0.3);
-                    transform: translateY(-2px);
+                    box-shadow:
+                        0 0 0 1px var(--mall-primary) inset,
+                        0 0 0 3px rgba(37, 99, 235, 0.25);
+                    transform: translateY(-1px);
                 }
             }
             .el-input__icon {
                 font-size: 18px;
-                color: #23a6d5;
+                color: rgba(255, 255, 255, 0.55);
                 transition: all 0.3s ease;
             }
         }
-        
+
         .submit {
             height: 50px;
             width: 100%;
             font-size: 18px;
-            background: linear-gradient(45deg, #23a6d5, #23d5ab);
+            font-weight: 600;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
             border: none;
-            box-shadow: 0 4px 15px rgba(35, 166, 213, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -163,21 +191,21 @@
                 left: -100%;
                 width: 100%;
                 height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
                 transition: all 0.5s ease;
             }
             &:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 7px 20px rgba(35, 166, 213, 0.4);
+                transform: translateY(-2px);
+                box-shadow: 0 10px 28px rgba(37, 99, 235, 0.45);
                 &::before {
                     left: 100%;
                 }
             }
         }
-        
+
         // 共享链接样式
         .cursor {
-            color: #23a6d5;
+            color: #93c5fd;
             font-weight: 500;
             position: relative;
             transition: all 0.3s ease;
@@ -189,14 +217,14 @@
                 left: 0;
                 width: 0;
                 height: 2px;
-                background: #23a6d5;
+                background: #93c5fd;
                 transition: all 0.3s ease;
             }
             &:hover {
-                color: #e73c7e;
+                color: var(--mall-accent);
                 &::after {
                     width: 100%;
-                    background: #e73c7e;
+                    background: var(--mall-accent);
                 }
             }
         }

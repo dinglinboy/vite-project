@@ -88,10 +88,11 @@ src/
 | 权限规则（菜单管理） | `/permission/rule` | 完整：树表格 + 新增/编辑/删除 + 类型区分 M/C/F + 父级树选择（防自引用） |
 | 订单 / 媒体 / 个人中心 | `/order/list` `/media` `/profile` | 订单**已实装**（列表/搜索/详情/发货/状态流转/删除）；媒体**已实装**（网格/上传/预览/复制链接/删除）；个人中心骨架 |
 
-## 已知瑕疵（留意）
+## 设计系统（2026-08 改造，源自 ui-ux-pro-max）
 
-1. `api/dept.ts` 路径带了 `/api` 前缀，与 baseURL 拼接成 `/api/api/dept`，疑似 bug
-2. 401 跳登录时未清除 localStorage 里的 token
-3. `style/varibles.scss` 拼写错误（应为 variables）且内容为空
-4. `components/HelloWorld.vue` 为脚手架残留
-5. ~~路由 name 命名不统一~~ 动态路由 name 统一为 `menu_<menuId>`；router/modules 已删除
+- **设计令牌**在 `src/style/variables.scss`（原 varibles.scss 拼写错误已修复）：品牌蓝 `--mall-primary: #2563EB` + CTA 橙 `--mall-accent: #EA580C`，背景 `#F8FAFC`；同时覆盖全套 Element Plus CSS 变量（--el-color-primary 等），改主题只动这一个文件
+- **字体**：Plus Jakarta Sans（Google Fonts import，含中文 fallback）
+- **布局**：`appLayout.vue` 侧边栏深蓝渐变（--mall-sidebar-bg）+ 顶栏玻璃拟态（blur 12px + 半透明白）；菜单选中项品牌蓝渐变 + 左侧指示条
+- **登录/注册页**：暗色科技渐变背景 + 粒子 + 玻璃表单卡（login-shared.scss 共享）；暗色下 el-checkbox/input 需单独覆盖
+- **全局统一**：common.scss 给 el-card/el-table/el-dialog 统一圆角/边框/阴影；仪表盘图表与 stat 图标用品牌色板
+- 改视觉优先动 variables.scss 令牌，避免散落硬编码色值

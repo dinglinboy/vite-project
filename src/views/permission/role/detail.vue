@@ -35,7 +35,8 @@ const opendialog = (data: Role) => {
     roleInfo.value = data
     dialogFlag.value = true
 }
-const formatTime = (date: string | undefined) => dayjs(date).format('YYYY-MM-DD hh:mm:ss');
+const formatTime = (date: string | undefined) =>
+    dayjs(date).format('YYYY-MM-DD hh:mm:ss')
 defineExpose({
     opendialog
 })

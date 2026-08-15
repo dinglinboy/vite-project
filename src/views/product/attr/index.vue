@@ -21,10 +21,16 @@
             </div>
         </template>
         <el-table :data="skuList" v-loading="loading">
-            <el-table-column prop="productName" label="商品名称" min-width="200" />
+            <el-table-column
+                prop="productName"
+                label="商品名称"
+                min-width="200"
+            />
             <el-table-column prop="name" label="规格名称" min-width="140" />
             <el-table-column label="价格(元)" width="110">
-                <template #default="{ row }">￥{{ Number(row.price) }}</template>
+                <template #default="{ row }"
+                    >￥{{ Number(row.price) }}</template
+                >
             </el-table-column>
             <el-table-column prop="stock" label="库存" width="90" />
             <el-table-column label="SKU 图片" width="90">
@@ -34,7 +40,9 @@
                         :src="row.image.replace('/file/', '/dev/file/')"
                         fit="cover"
                         style="width: 50px; height: 50px"
-                        :preview-src-list="[row.image.replace('/file/', '/dev/file/')]"
+                        :preview-src-list="[
+                            row.image.replace('/file/', '/dev/file/')
+                        ]"
                     />
                     <span v-else>-</span>
                 </template>

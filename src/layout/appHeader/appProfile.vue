@@ -65,6 +65,6 @@ const handleLogoutClick = () => {
 <style lang="scss">
 .nick-name {
     margin-right: 8px;
-    color: #333;
+    color: var(--mall-foreground);
 }
 </style>

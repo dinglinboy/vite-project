@@ -2,9 +2,7 @@
     <el-card class="box-card">
         <template #header>
             <div class="card-header">
-                <span
-                    >字典数据管理（{{ dictName }} · {{ dictType }}）</span
-                >
+                <span>字典数据管理（{{ dictName }} · {{ dictType }}）</span>
                 <el-button @click="router.back()">返回</el-button>
             </div>
         </template>
@@ -39,8 +37,16 @@
             </el-form-item>
         </el-form>
         <el-table :data="tableData" v-loading="loading">
-            <el-table-column prop="dict_label" label="字典标签" min-width="140" />
-            <el-table-column prop="dict_value" label="字典键值" min-width="120" />
+            <el-table-column
+                prop="dict_label"
+                label="字典标签"
+                min-width="140"
+            />
+            <el-table-column
+                prop="dict_value"
+                label="字典键值"
+                min-width="120"
+            />
             <el-table-column label="标签样式" width="120">
                 <template #default="{ row }">
                     <el-tag :type="row.list_class || 'primary'">{{
@@ -51,7 +57,9 @@
             <el-table-column prop="dict_sort" label="排序" width="80" />
             <el-table-column label="是否默认" width="90">
                 <template #default="{ row }">
-                    <el-tag v-if="row.is_default === 'Y'" type="success">默认</el-tag>
+                    <el-tag v-if="row.is_default === 'Y'" type="success"
+                        >默认</el-tag
+                    >
                     <span v-else>-</span>
                 </template>
             </el-table-column>
@@ -93,7 +101,12 @@
             width="520px"
             destroy-on-close
         >
-            <el-form ref="formRef" :model="form" :rules="rules" label-width="90px">
+            <el-form
+                ref="formRef"
+                :model="form"
+                :rules="rules"
+                label-width="90px"
+            >
                 <el-form-item label="字典标签" prop="dictLabel">
                     <el-input
                         v-model="form.dictLabel"
@@ -188,8 +201,12 @@ const form = reactive({
 })
 
 const rules = reactive<FormRules>({
-    dictLabel: [{ required: true, message: '请输入字典标签', trigger: 'change' }],
-    dictValue: [{ required: true, message: '请输入字典键值', trigger: 'change' }]
+    dictLabel: [
+        { required: true, message: '请输入字典标签', trigger: 'change' }
+    ],
+    dictValue: [
+        { required: true, message: '请输入字典键值', trigger: 'change' }
+    ]
 })
 
 onMounted(() => {

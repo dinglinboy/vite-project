@@ -107,7 +107,11 @@
                 >
                     <el-icon><Plus /></el-icon>
                 </el-upload>
-                <el-dialog v-model="previewVisible" width="600px" append-to-body>
+                <el-dialog
+                    v-model="previewVisible"
+                    width="600px"
+                    append-to-body
+                >
                     <img :src="previewUrl" style="width: 100%" />
                 </el-dialog>
             </el-form-item>
@@ -266,7 +270,9 @@ const form = reactive({
 
 const rules = reactive<FormRules>({
     name: [{ required: true, message: '请输入商品名称', trigger: 'change' }],
-    categoryId: [{ required: true, message: '请选择商品分类', trigger: 'change' }]
+    categoryId: [
+        { required: true, message: '请选择商品分类', trigger: 'change' }
+    ]
 })
 
 // el-upload 的 file-list 需要 { name, url } 结构
@@ -340,7 +346,8 @@ const handleImageUpload = async (options: any) => {
 
 const handleImageRemove = (file: any) => {
     const url = file.response || file.url
-    const raw = typeof url === 'string' ? url.replace('/dev/file/', '/file/') : ''
+    const raw =
+        typeof url === 'string' ? url.replace('/dev/file/', '/file/') : ''
     const idx = form.images.findIndex((u) => u === raw)
     if (idx > -1) {
         form.images.splice(idx, 1)

@@ -1,7 +1,12 @@
 <template>
     <div class="login-page">
         <div class="particles">
-            <div v-for="n in 20" :key="n" class="particle" :style="{ '--i': n }"></div>
+            <div
+                v-for="n in 20"
+                :key="n"
+                class="particle"
+                :style="{ '--i': n }"
+            ></div>
         </div>
         <div class="signup-logo">
             <img src="/mall-logo-modern.svg" height="120" />
@@ -45,7 +50,9 @@
                 >
             </el-form-item>
             <div class="login-link">
-                <span @click="jumpToLogin" class="cursor">已有账号？去登录</span>
+                <span @click="jumpToLogin" class="cursor"
+                    >已有账号？去登录</span
+                >
             </div>
         </el-form>
     </div>
@@ -116,26 +123,26 @@ const jumpToLogin = () => {
 
 // 添加鼠标移动效果
 const handleMouseMove = (e: MouseEvent) => {
-    const particles = document.querySelectorAll('.particle');
-    const x = e.clientX / window.innerWidth;
-    const y = e.clientY / window.innerHeight;
-    
+    const particles = document.querySelectorAll('.particle')
+    const x = e.clientX / window.innerWidth
+    const y = e.clientY / window.innerHeight
+
     particles.forEach((particle, index) => {
-        const el = particle as HTMLElement;
-        const factor = (index + 1) * 0.1;
-        const offsetX = (x - 0.5) * factor * 100;
-        const offsetY = (y - 0.5) * factor * 100;
-        
-        el.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-    });
+        const el = particle as HTMLElement
+        const factor = (index + 1) * 0.1
+        const offsetX = (x - 0.5) * factor * 100
+        const offsetY = (y - 0.5) * factor * 100
+
+        el.style.transform = `translate(${offsetX}px, ${offsetY}px)`
+    })
 }
 
 onMounted(() => {
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove)
 })
 
 onBeforeUnmount(() => {
-    window.removeEventListener('mousemove', handleMouseMove);
+    window.removeEventListener('mousemove', handleMouseMove)
 })
 </script>
 <style lang="scss">

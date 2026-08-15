@@ -71,7 +71,9 @@
             <el-table-column prop="category.name" label="分类" width="110" />
             <el-table-column prop="brand.name" label="品牌" width="100" />
             <el-table-column label="售价" width="90">
-                <template #default="{ row }">￥{{ Number(row.price) }}</template>
+                <template #default="{ row }"
+                    >￥{{ Number(row.price) }}</template
+                >
             </el-table-column>
             <el-table-column prop="stock" label="库存" width="80" />
             <el-table-column prop="sales_count" label="销量" width="80" />
@@ -109,7 +111,9 @@
                         type="primary"
                         link
                         @click="toggleStatus(row)"
-                        >{{ row.product_status === 'published' ? '下架' : '上架' }}</el-button
+                        >{{
+                            row.product_status === 'published' ? '下架' : '上架'
+                        }}</el-button
                     >
                     <el-button
                         v-permission="['product:list:remove']"
@@ -219,7 +223,9 @@ const toggleStatus = async (row: ProductItem) => {
     const target = row.product_status === 'published' ? 'archived' : 'published'
     try {
         await ElMessageBox.confirm(
-            `确定${target === 'published' ? '上架' : '下架'}「${row.name}」吗？`,
+            `确定${target === 'published' ? '上架' : '下架'}「${
+                row.name
+            }」吗？`,
             '提示',
             {
                 confirmButtonText: '确定',

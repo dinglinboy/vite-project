@@ -1,10 +1,10 @@
 <template>
     <el-menu
-        active-text-color="#ffd04b"
-        background-color="#545c64"
+        active-text-color="var(--mall-sidebar-text-active)"
+        background-color="transparent"
         class="el-menu-vertical-demo"
         :default-active="route.path"
-        text-color="#fff"
+        text-color="var(--mall-sidebar-text)"
         :collapse="publicStore.isCollapse"
         router
     >
@@ -58,9 +58,33 @@ const resolvePath = (parent: MenuItem, child?: MenuItem): string => {
     return `${parent.path}/${child.path}`
 }
 </script>
-<style scoped>
+<style lang="scss">
 .el-menu {
     height: 100%;
+    border-right: none;
+    --el-menu-bg-color: transparent;
+    --el-menu-text-color: var(--mall-sidebar-text);
+    --el-menu-active-color: var(--mall-sidebar-text-active);
+    --el-menu-hover-bg-color: rgba(255, 255, 255, 0.08);
+    // 子菜单展开面板
+    .el-menu {
+        background: rgba(0, 0, 0, 0.18);
+        border-radius: 0;
+    }
+    // 选中项：左侧品牌蓝指示条 + 微渐变
+    .el-menu-item.is-active {
+        background: linear-gradient(
+            90deg,
+            rgba(37, 99, 235, 0.45),
+            rgba(37, 99, 235, 0.12)
+        );
+        box-shadow: inset 3px 0 0 var(--mall-primary);
+        font-weight: 600;
+    }
+    .el-menu-item,
+    .el-sub-menu__title {
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;

@@ -35,8 +35,16 @@
             </div>
         </template>
         <el-table :data="tableData" v-loading="loading">
-            <el-table-column prop="dict_name" label="字典名称" min-width="160" />
-            <el-table-column prop="dict_type" label="字典类型" min-width="160" />
+            <el-table-column
+                prop="dict_name"
+                label="字典名称"
+                min-width="160"
+            />
+            <el-table-column
+                prop="dict_type"
+                label="字典类型"
+                min-width="160"
+            />
             <el-table-column label="操作" width="220" fixed="right">
                 <template #default="{ row }">
                     <el-button
@@ -82,7 +90,12 @@
             width="480px"
             destroy-on-close
         >
-            <el-form ref="formRef" :model="form" :rules="rules" label-width="90px">
+            <el-form
+                ref="formRef"
+                :model="form"
+                :rules="rules"
+                label-width="90px"
+            >
                 <el-form-item label="字典名称" prop="dictName">
                     <el-input
                         v-model="form.dictName"
@@ -148,7 +161,9 @@ const form = reactive({
 })
 
 const rules = reactive<FormRules>({
-    dictName: [{ required: true, message: '请输入字典名称', trigger: 'change' }],
+    dictName: [
+        { required: true, message: '请输入字典名称', trigger: 'change' }
+    ],
     dictType: [{ required: true, message: '请输入字典类型', trigger: 'change' }]
 })
 

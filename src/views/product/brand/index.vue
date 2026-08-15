@@ -32,7 +32,9 @@
                     <el-image
                         v-if="row.logo"
                         :src="row.logo.replace('/file/', '/dev/file/')"
-                        :preview-src-list="[row.logo.replace('/file/', '/dev/file/')]"
+                        :preview-src-list="[
+                            row.logo.replace('/file/', '/dev/file/')
+                        ]"
                         fit="cover"
                         style="width: 48px; height: 48px"
                     />
@@ -85,7 +87,12 @@
             width="520px"
             destroy-on-close
         >
-            <el-form ref="formRef" :model="form" :rules="rules" label-width="80px">
+            <el-form
+                ref="formRef"
+                :model="form"
+                :rules="rules"
+                label-width="80px"
+            >
                 <el-form-item label="品牌名称" prop="name">
                     <el-input
                         v-model="form.name"

@@ -93,7 +93,9 @@
                 <el-table-column prop="totalAmount" label="金额" width="130">
                     <template #default="scope">
                         <span class="amount"
-                            >¥{{ Number(scope.row.totalAmount).toFixed(2) }}</span
+                            >¥{{
+                                Number(scope.row.totalAmount).toFixed(2)
+                            }}</span
                         >
                     </template>
                 </el-table-column>
@@ -128,7 +130,9 @@ import * as echarts from 'echarts'
 import type { TagProps } from 'element-plus'
 import { getDashboardStatsApi } from '@/api/dashboard'
 
-const statsData = ref<{ title: string; value: string; color: string; icon: any }[]>([])
+const statsData = ref<
+    { title: string; value: string; color: string; icon: any }[]
+>([])
 
 const recentOrders = ref<any[]>([])
 
@@ -176,12 +180,12 @@ const initTrendChart = (amounts: number[], days: string[]) => {
                 data: amounts,
                 areaStyle: {
                     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                        { offset: 0, color: 'rgba(64, 158, 255, 0.3)' },
-                        { offset: 1, color: 'rgba(64, 158, 255, 0.05)' }
+                        { offset: 0, color: 'rgba(37, 99, 235, 0.3)' },
+                        { offset: 1, color: 'rgba(37, 99, 235, 0.05)' }
                     ])
                 },
-                lineStyle: { color: '#409EFF' },
-                itemStyle: { color: '#409EFF' }
+                lineStyle: { color: '#2563EB' },
+                itemStyle: { color: '#2563EB' }
             }
         ]
     })
@@ -199,12 +203,24 @@ const initStatusChart = (data: { name: string; value: number }[]) => {
                 radius: ['40%', '65%'],
                 center: ['50%', '45%'],
                 avoidLabelOverlap: false,
-                itemStyle: { borderRadius: 6, borderColor: '#fff', borderWidth: 2 },
+                itemStyle: {
+                    borderRadius: 6,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },
                 label: { show: false },
                 emphasis: {
                     label: { show: true, fontSize: 16, fontWeight: 'bold' }
                 },
-                data
+                data,
+                color: [
+                    '#2563EB',
+                    '#EA580C',
+                    '#16A34A',
+                    '#DC2626',
+                    '#94A3B8',
+                    '#8B5CF6'
+                ]
             }
         ]
     })
@@ -226,8 +242,8 @@ const initCategoryChart = (data: { name: string; cnt: string | number }[]) => {
                 itemStyle: {
                     borderRadius: [0, 4, 4, 0],
                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                        { offset: 0, color: '#67C23A' },
-                        { offset: 1, color: '#a8e063' }
+                        { offset: 0, color: '#2563EB' },
+                        { offset: 1, color: '#6D9DF5' }
                     ])
                 }
             }
@@ -253,8 +269,8 @@ const initTopChart = (data: { name: string; qty: string | number }[]) => {
                 itemStyle: {
                     borderRadius: [0, 4, 4, 0],
                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                        { offset: 0, color: '#E6A23C' },
-                        { offset: 1, color: '#f8d186' }
+                        { offset: 0, color: '#EA580C' },
+                        { offset: 1, color: '#FB923C' }
                     ])
                 }
             }
@@ -270,25 +286,25 @@ const loadData = async () => {
         {
             title: '今日销售额',
             value: `¥${Number(r.todaySales).toFixed(2)}`,
-            color: '#F56C6C',
+            color: '#2563EB',
             icon: Money
         },
         {
             title: '今日订单',
             value: `${r.todayOrders} 单`,
-            color: '#67C23A',
+            color: '#16A34A',
             icon: ShoppingCart
         },
         {
             title: '累计销售额',
             value: `¥${Number(r.totalSales).toFixed(2)}`,
-            color: '#E6A23C',
+            color: '#EA580C',
             icon: TrendCharts
         },
         {
             title: '总订单数',
             value: `${r.totalOrders} 单`,
-            color: '#409EFF',
+            color: '#7C3AED',
             icon: Box
         },
         {
@@ -300,19 +316,19 @@ const loadData = async () => {
         {
             title: '注册用户',
             value: `${r.userCount} 人`,
-            color: '#909399',
+            color: '#64748B',
             icon: User
         },
         {
             title: '在售商品',
             value: `${r.productCount} 个`,
-            color: '#67C23A',
+            color: '#0EA5E9',
             icon: Box
         },
         {
             title: '待回复评论',
             value: `${r.replyPending} 条`,
-            color: '#E6A23C',
+            color: '#F43F5E',
             icon: ChatDotRound
         }
     ]
@@ -333,7 +349,7 @@ onMounted(() => {
 <style scoped>
 .dashboard-container {
     padding: 20px;
-    background-color: #f5f7fa;
+    background-color: var(--mall-bg);
     min-height: 100vh;
 }
 
@@ -343,14 +359,15 @@ onMounted(() => {
 
 .page-title {
     font-size: 28px;
-    font-weight: 600;
-    color: #303133;
+    font-weight: 700;
+    color: var(--mall-foreground);
     margin: 0 0 8px 0;
+    letter-spacing: 0.5px;
 }
 
 .page-subtitle {
     font-size: 14px;
-    color: #909399;
+    color: var(--mall-muted-fg);
     margin: 0;
 }
 
@@ -362,14 +379,15 @@ onMounted(() => {
 }
 
 .stat-card {
-    border: none;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--mall-border);
+    border-radius: var(--mall-radius);
+    box-shadow: var(--mall-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .stat-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--mall-shadow-hover);
 }
 
 .stat-content {
@@ -381,13 +399,14 @@ onMounted(() => {
 .stat-icon {
     width: 52px;
     height: 52px;
-    border-radius: 12px;
+    border-radius: var(--mall-radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 16px;
     color: white;
     flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
 }
 
 .stat-info {
@@ -397,8 +416,8 @@ onMounted(() => {
 
 .stat-value {
     font-size: 24px;
-    font-weight: 700;
-    color: #303133;
+    font-weight: 800;
+    color: var(--mall-foreground);
     margin: 0 0 5px 0;
     line-height: 1;
     white-space: nowrap;
@@ -406,7 +425,7 @@ onMounted(() => {
 
 .stat-title {
     font-size: 14px;
-    color: #606266;
+    color: var(--mall-muted-fg);
     margin: 0;
 }
 
@@ -418,8 +437,9 @@ onMounted(() => {
 }
 
 .chart-card {
-    border: none;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--mall-border);
+    border-radius: var(--mall-radius);
+    box-shadow: var(--mall-shadow);
 }
 
 .chart-container {
@@ -432,21 +452,22 @@ onMounted(() => {
 }
 
 .table-card {
-    border: none;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--mall-border);
+    border-radius: var(--mall-radius);
+    box-shadow: var(--mall-shadow);
 }
 
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-weight: 600;
-    color: #303133;
+    font-weight: 700;
+    color: var(--mall-foreground);
 }
 
 .amount {
     font-weight: 600;
-    color: #67c23a;
+    color: var(--mall-success);
 }
 
 @media (max-width: 768px) {

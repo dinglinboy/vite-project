@@ -46,7 +46,11 @@
             </div>
         </template>
         <el-table :data="tableData" v-loading="loading">
-            <el-table-column prop="product_name" label="商品名称" min-width="180" />
+            <el-table-column
+                prop="product_name"
+                label="商品名称"
+                min-width="180"
+            />
             <el-table-column prop="username" label="用户" width="110" />
             <el-table-column label="评分" width="140">
                 <template #default="{ row }">
@@ -114,10 +118,7 @@
                     ></el-rate>
                 </div>
                 <div class="review-content">{{ currentRow?.content }}</div>
-                <div
-                    v-if="currentRow?.reply_content"
-                    class="review-replied"
-                >
+                <div v-if="currentRow?.reply_content" class="review-replied">
                     已回复：{{ currentRow?.reply_content }}
                 </div>
             </div>
@@ -214,7 +215,10 @@ const submitReply = async () => {
     if (!currentRow.value) return
     replyLoading.value = true
     try {
-        const res = await replyReviewApi(currentRow.value.id, replyContent.value.trim())
+        const res = await replyReviewApi(
+            currentRow.value.id,
+            replyContent.value.trim()
+        )
         if (res.code !== 0) {
             return ElMessage.error(res.message || res.msg || '回复失败')
         }

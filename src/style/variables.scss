@@ -1,0 +1,95 @@
+// 设计令牌（Design Tokens）——叮叮商城管理后台
+// 源自 ui-ux-pro-max 推荐设计系统：Light Glassmorphism / SaaS Admin
+// 主色 #2563EB（信任蓝）+ CTA #EA580C（活力橙）+ 背景 #F8FAFC
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+:root {
+    // ---------- 品牌令牌 ----------
+    --mall-primary: #2563eb; // 主色：信任蓝
+    --mall-primary-dark: #1d4ed8;
+    --mall-accent: #ea580c; // CTA：活力橙
+    --mall-bg: #f8fafc; // 页面背景
+    --mall-foreground: #1e293b; // 正文
+    --mall-card: #ffffff;
+    --mall-muted: #e9eff8; // 次级填充
+    --mall-muted-fg: #475569; // 次级文字
+    --mall-border: #e2e8f0;
+    --mall-destructive: #dc2626;
+    --mall-success: #16a34a;
+    --mall-radius: 12px; // 卡片圆角
+    --mall-radius-sm: 8px;
+    --mall-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.06);
+    --mall-shadow-hover: 0 4px 12px rgba(15, 23, 42, 0.1), 0 12px 32px rgba(15, 23, 42, 0.12);
+    // 侧边栏（深色渐变）
+    --mall-sidebar-bg: linear-gradient(180deg, #0f172a 0%, #172554 100%);
+    --mall-sidebar-text: #cbd5e1;
+    --mall-sidebar-text-active: #ffffff;
+    // 顶栏（玻璃拟态）
+    --mall-header-bg: rgba(255, 255, 255, 0.72);
+    --mall-header-blur: 12px;
+    --mall-header-border: rgba(226, 232, 240, 0.9);
+
+    // ---------- Element Plus 主题覆盖 ----------
+    --el-color-primary: #2563eb;
+    --el-color-primary-light-3: #6d9df5;
+    --el-color-primary-light-5: #9dbbf8;
+    --el-color-primary-light-7: #cddcfb;
+    --el-color-primary-light-8: #e0e9fc;
+    --el-color-primary-light-9: #f1f5fe;
+    --el-color-primary-dark-2: #1d4ed8;
+    --el-color-success: #16a34a;
+    --el-color-warning: #f59e0b;
+    --el-color-danger: #dc2626;
+    --el-color-error: #dc2626;
+    --el-color-info: #64748b;
+    --el-bg-color: #ffffff;
+    --el-bg-color-page: #f8fafc;
+    --el-bg-color-overlay: #ffffff;
+    --el-text-color-primary: #1e293b;
+    --el-text-color-regular: #334155;
+    --el-text-color-secondary: #64748b;
+    --el-text-color-placeholder: #94a3b8;
+    --el-border-color: #e2e8f0;
+    --el-border-color-light: #e8edf3;
+    --el-border-color-lighter: #e9eff8;
+    --el-border-color-extra-light: #f1f5f9;
+    --el-border-radius-base: 8px;
+    --el-border-radius-small: 6px;
+    --el-border-radius-round: 999px;
+    --el-font-family: 'Plus Jakarta Sans', Inter, system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    --el-box-shadow-light: 0 4px 16px rgba(15, 23, 42, 0.08);
+    --el-fill-color-light: #f6f9fc;
+    --el-fill-color-lighter: #f8fafc;
+}
+
+// 页面基底
+body {
+    font-family: var(--el-font-family);
+    background-color: var(--mall-bg);
+    color: var(--mall-foreground);
+    color-scheme: light;
+    -webkit-font-smoothing: antialiased;
+}
+
+// 通用卡片：统一圆角/阴影/边框
+.mall-card {
+    border: 1px solid var(--mall-border) !important;
+    border-radius: var(--mall-radius) !important;
+    box-shadow: var(--mall-shadow) !important;
+}
+
+// 滚动条美化
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+    &:hover {
+        background: #94a3b8;
+    }
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}

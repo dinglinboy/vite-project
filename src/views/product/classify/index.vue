@@ -180,7 +180,11 @@ const filteredTree = computed(() => {
     if (!kw) return treeData.value
     const filter = (nodes: CategoryNode[]): CategoryNode[] => {
         return nodes
-            .filter((n) => n.name.includes(kw) || (n.children?.length && filter(n.children).length))
+            .filter(
+                (n) =>
+                    n.name.includes(kw) ||
+                    (n.children?.length && filter(n.children).length)
+            )
             .map((n) => ({
                 ...n,
                 children: n.children?.length ? filter(n.children) : undefined
@@ -283,7 +287,9 @@ const handleSubmit = async () => {
 const handleDelete = (row: CategoryNode) => {
     const hasChildren = !!row.children?.length
     ElMessageBox.confirm(
-        `确定要删除「${row.name}」吗？${hasChildren ? '其下所有子分类将一并删除！' : ''}`,
+        `确定要删除「${row.name}」吗？${
+            hasChildren ? '其下所有子分类将一并删除！' : ''
+        }`,
         '删除分类',
         {
             confirmButtonText: '确定',

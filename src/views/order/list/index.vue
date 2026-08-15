@@ -57,7 +57,10 @@
             <el-table v-loading="loading" :data="tableData" stripe>
                 <el-table-column prop="orderNo" label="订单号" width="170">
                     <template #default="scope">
-                        <el-link type="primary" @click="handleViewDetail(scope.row)">
+                        <el-link
+                            type="primary"
+                            @click="handleViewDetail(scope.row)"
+                        >
                             {{ scope.row.orderNo }}
                         </el-link>
                     </template>
@@ -84,10 +87,16 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="totalAmount" label="订单金额" width="110">
+                <el-table-column
+                    prop="totalAmount"
+                    label="订单金额"
+                    width="110"
+                >
                     <template #default="scope">
                         <span class="amount-text"
-                            >¥{{ Number(scope.row.totalAmount).toFixed(2) }}</span
+                            >¥{{
+                                Number(scope.row.totalAmount).toFixed(2)
+                            }}</span
                         >
                     </template>
                 </el-table-column>
@@ -101,7 +110,11 @@
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column prop="createTime" label="下单时间" width="160" />
+                <el-table-column
+                    prop="createTime"
+                    label="下单时间"
+                    width="160"
+                />
                 <el-table-column label="操作" width="190" fixed="right">
                     <template #default="scope">
                         <el-button
@@ -134,7 +147,9 @@
                                 <el-dropdown-menu>
                                     <el-dropdown-item
                                         command="complete"
-                                        v-if="scope.row.orderStatus === 'shipped'"
+                                        v-if="
+                                            scope.row.orderStatus === 'shipped'
+                                        "
                                         v-permission="['order:list:edit']"
                                     >
                                         标记完成
@@ -142,9 +157,10 @@
                                     <el-dropdown-item
                                         command="cancel"
                                         v-if="
-                                            ['pending_payment', 'paid'].includes(
-                                                scope.row.orderStatus
-                                            )
+                                            [
+                                                'pending_payment',
+                                                'paid'
+                                            ].includes(scope.row.orderStatus)
                                         "
                                         v-permission="['order:list:edit']"
                                     >
@@ -221,7 +237,9 @@
                     }}</el-descriptions-item>
                     <el-descriptions-item label="订单金额">
                         <span class="amount-text"
-                            >¥{{ Number(currentOrder.totalAmount).toFixed(2) }}</span
+                            >¥{{
+                                Number(currentOrder.totalAmount).toFixed(2)
+                            }}</span
                         >
                     </el-descriptions-item>
                     <el-descriptions-item label="实付金额">
@@ -239,13 +257,21 @@
                     <h4>商品明细</h4>
                     <el-table :data="currentOrder.items" style="width: 100%">
                         <el-table-column prop="productName" label="商品名称" />
-                        <el-table-column prop="skuName" label="规格" width="120" />
+                        <el-table-column
+                            prop="skuName"
+                            label="规格"
+                            width="120"
+                        />
                         <el-table-column prop="price" label="单价" width="100">
                             <template #default="scope">
                                 ¥{{ Number(scope.row.price).toFixed(2) }}
                             </template>
                         </el-table-column>
-                        <el-table-column prop="quantity" label="数量" width="80" />
+                        <el-table-column
+                            prop="quantity"
+                            label="数量"
+                            width="80"
+                        />
                         <el-table-column label="小计" width="110">
                             <template #default="scope">
                                 ¥{{ Number(scope.row.total).toFixed(2) }}
@@ -288,7 +314,9 @@
             </el-form>
             <template #footer>
                 <span class="dialog-footer">
-                    <el-button @click="shipDialogVisible = false">取消</el-button>
+                    <el-button @click="shipDialogVisible = false"
+                        >取消</el-button
+                    >
                     <el-button type="primary" @click="handleShipConfirm"
                         >确认发货</el-button
                     >
@@ -430,7 +458,10 @@ const handleShipConfirm = async () => {
 
 const handleDropdownCommand = (command: string, row: OrderItemRow) => {
     const actions: Record<string, { text: string; status: string }> = {
-        complete: { text: '确定要将该订单标记为已完成吗？', status: 'completed' },
+        complete: {
+            text: '确定要将该订单标记为已完成吗？',
+            status: 'completed'
+        },
         cancel: { text: '确定要取消该订单吗？', status: 'cancelled' },
         refund: { text: '确定要对该订单执行退款吗？', status: 'refunded' }
     }

@@ -2,7 +2,9 @@
     <div class="media-container">
         <div class="page-header">
             <h1 class="page-title">媒体管理</h1>
-            <p class="page-subtitle">图片素材库（上传后可复制链接到商品/品牌等处使用）</p>
+            <p class="page-subtitle">
+                图片素材库（上传后可复制链接到商品/品牌等处使用）
+            </p>
         </div>
 
         <el-card class="toolbar-card" shadow="never">
@@ -17,7 +19,11 @@
                         />
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="handleSearch" :icon="Search">
+                        <el-button
+                            type="primary"
+                            @click="handleSearch"
+                            :icon="Search"
+                        >
                             搜索
                         </el-button>
                         <el-button @click="handleReset" :icon="Refresh">
@@ -31,7 +37,9 @@
                         :http-request="handleUpload"
                         accept="image/*"
                     >
-                        <el-button type="primary" :icon="Upload">上传图片</el-button>
+                        <el-button type="primary" :icon="Upload"
+                            >上传图片</el-button
+                        >
                     </el-upload>
                 </div>
             </div>
@@ -40,7 +48,11 @@
         <el-card v-loading="loading" class="grid-card" shadow="never">
             <el-empty v-if="!mediaList.length" description="暂无素材" />
             <div v-else class="media-grid">
-                <div v-for="item in mediaList" :key="item.uploadId" class="media-item">
+                <div
+                    v-for="item in mediaList"
+                    :key="item.uploadId"
+                    class="media-item"
+                >
                     <div class="media-thumb">
                         <el-image
                             :src="toViewUrl(item.url)"
@@ -97,7 +109,13 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import { Search, Refresh, Upload, CopyDocument, Delete } from '@element-plus/icons-vue'
+import {
+    Search,
+    Refresh,
+    Upload,
+    CopyDocument,
+    Delete
+} from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { getMediaListApi, deleteMediaApi } from '@/api/media'
 import axios from '@/util/axios'
@@ -165,7 +183,10 @@ const handleUpload = async (options: any) => {
     const formData = new FormData()
     formData.append('file', options.file)
     try {
-        const res = await axios.post<any, Result>('/common/upload/singleFile', formData)
+        const res = await axios.post<any, Result>(
+            '/common/upload/singleFile',
+            formData
+        )
         if (res.code === 0) {
             ElMessage.success('上传成功')
             handleSearch()

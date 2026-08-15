@@ -1,8 +1,7 @@
 :root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     font-weight: 400;
 
-    color-scheme: light dark;
+    color-scheme: light;
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -149,4 +148,27 @@ table {
 
 .cursor {
     cursor: pointer;
+}
+
+// 全局卡片统一（el-card）
+.el-card {
+    --el-card-border-color: var(--mall-border);
+    --el-card-border-radius: var(--mall-radius);
+    border: 1px solid var(--mall-border);
+    border-radius: var(--mall-radius);
+    box-shadow: var(--mall-shadow);
+}
+
+// 全局表格统一
+.el-table {
+    --el-table-header-bg-color: var(--mall-muted);
+    --el-table-header-text-color: var(--mall-muted-fg);
+    --el-table-border-color: var(--mall-border);
+    --el-table-row-hover-bg-color: #f1f5fe;
+    border-radius: var(--mall-radius-sm);
+}
+
+// 弹窗统一圆角
+.el-dialog {
+    border-radius: var(--mall-radius);
 }
