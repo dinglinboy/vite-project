@@ -71,6 +71,7 @@ src/
 - **API 函数**命名以 `Api` 结尾（`getUserListApi`），用 `axios.get<any, ResponseType>` 指定响应类型，中文 JSDoc
 - **请求封装**（`util/axios.ts`）：baseURL 取 `VITE_API_BASE_URL`，timeout 30s；token 从 `localStorage.jwt_token` 读取，`Authorization: Bearer xx`；401 时 `router.push('/login')`；响应拦截器直接返回 `response.data`
 - **路由 meta**：`{ title: true, name: '中文名' }`，公开页加 `noAuth: true`；无 token 且非 noAuth → 重定向 `/login?redirect=xxx`
+- **动态路由加载坑（重要）**：守卫里加载完动态路由后**不能 `next({ ...to })`**——to 对象携带注册前的旧 `matched` 快照，vue-router 4 会直接沿用导致子路由不渲染（页面只显示 Layout、内容区空白）；必须用字符串路径 `next({ path: to.fullPath, replace: true })` 强制重新解析（见 `router/index.ts` beforeEach）
 - **Prettier**：4 空格缩进、单引号、无分号、行宽 80
 - 后端响应格式：`{ code: 0|-1, msg, result }`
 

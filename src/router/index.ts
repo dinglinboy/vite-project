@@ -93,7 +93,9 @@ router.beforeEach(async (to, from, next) => {
         try {
             await userStore.loadUserState()
             // 重新进入目标路由，让新增路由生效
-            next({ ...to, replace: true })
+            // 注意：不能 next({ ...to })，to 携带动态路由注册前的旧 matched 快照，
+            // vue-router 会直接沿用导致子路由不渲染；用字符串路径强制重新解析
+            next({ path: to.fullPath, replace: true })
         } catch (error) {
             // 加载失败（token 失效等）：清理本地登录态
             clearJwtToken()
