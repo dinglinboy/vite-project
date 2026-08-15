@@ -59,8 +59,8 @@
                 <template #default="{ row }">
                     <el-image
                         v-if="row.images?.length"
-                        :src="row.images[0]"
-                        :preview-src-list="row.images"
+                        :src="row.images[0].replace('/file/', '/dev/file/')"
+                        :preview-src-list="row.images.map((url: string) => url.replace('/file/', '/dev/file/'))"
                         fit="cover"
                         style="width: 60px; height: 60px"
                     />
