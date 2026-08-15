@@ -30,7 +30,16 @@ export const addCategoryApi = (data: {
  */
 export const updateCategoryApi = (
     id: number | string,
-    data: { name: string; parentId?: number; sort_order?: number }
+    data: { id: number; name: string; parentId?: number; sort_order?: number }
 ) => {
     return axios.put<any, Result>(`/category/${id}`, data)
+}
+
+/**
+ * 删除分类（连带软删子分类）
+ * @param id 分类id
+ * @return 删除结果
+ */
+export const deleteCategoryApi = (id: number | string) => {
+    return axios.delete<any, Result>(`/category/${id}`)
 }

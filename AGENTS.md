@@ -63,6 +63,7 @@ src/
 - **商品页**：`api/product.ts` 全部商品接口；列表页 `product/list`（搜索 name/categoryId/product_status + 分页 + 上架/下架/删除，`v-permission` 按钮权限）；新增/编辑页 `product/add`（`/product/add?id=` 编辑，图片 el-upload 自定义 http-request 调 `/common/upload/singleFile`，上传返回 `/file/xxx`，**显示时必须转 `/dev/file/xxx`**，见 add 页 `toViewUrl`）；SKU/参数用 el-table 动态行编辑，price/stock 后端自动算
 - **评论页**：`api/review.ts`（list/reply/delete/add）；`product/reply` 搜索 productName/rating/replied + 星级展示（el-rate disabled）+ 回复弹窗（已回复内容回显可改）+ 删除；`product/attr` 为全量 SKU 一览页（拉 /product/list pageSize=100 后前端扁平化）
 - **品牌页**：`api/brand.ts`（list/options/add/update/delete）；`product/brand` 分页+搜索+logo 预览弹窗+新增/编辑弹窗+删除；商品新增/编辑页品牌下拉用 `getBrandOptionsApi`（select id/name）
+- **分类页**：`api/category.ts`（list/add/update/delete）；`product/classify` 树形表格 + 名称过滤 + 添加/添加子分类/编辑（父级树选择排除自身及后代）/删除（提示连带子分类）；**商品列表/新增页的分类下拉与分类管理页同源**（都用 `GET /category/list` 树）
 - **字典页**：`api/dict.ts` 全量接口；`system/dict/index` 类型管理（dictName/dictType 搜索+分页+弹窗）；`system/dict/data` 数据管理（query.dictType 定位，dictLabel/dictValue/dictSort/listClass(标签样式)/isDefault(开关)）；业务表单下拉用 `getDictDataByTypeApi(dictType)` 返回 `{dictLabel, dictValue, listClass}`
 - **菜单图标**：`util/iconMap.ts` 维护 icon 字符串→组件映射，新图标先在这里登记
 - **注意**：菜单/权限数据变更后，已登录用户需刷新页面（守卫重新拉 getRouters）才生效
