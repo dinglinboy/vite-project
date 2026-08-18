@@ -5,6 +5,7 @@
             <appBreadcrumb></appBreadcrumb>
         </div>
         <div class="app-header-right">
+            <appNotification></appNotification>
             <appFullScreen></appFullScreen>
             <appProfile></appProfile>
         </div>
@@ -16,6 +17,7 @@ import appBreadcrumb from './appBreadcrumb.vue'
 import appFold from './appFold.vue'
 import appFullScreen from './appFullScreen.vue'
 import appProfile from './appProfile.vue'
+import appNotification from './appNotification.vue'
 </script>
 <style lang="scss">
 .app-header {
