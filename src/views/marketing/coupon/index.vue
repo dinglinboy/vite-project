@@ -81,9 +81,9 @@
                 </el-form-item>
                 <el-form-item label="券类型" prop="type">
                     <el-radio-group v-model="form.type">
-                        <el-radio value="full_reduction">满减</el-radio>
-                        <el-radio value="discount">折扣</el-radio>
-                        <el-radio value="cash">无门槛立减</el-radio>
+                        <el-radio label="full_reduction">满减</el-radio>
+                        <el-radio label="discount">折扣</el-radio>
+                        <el-radio label="cash">无门槛立减</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item v-if="form.type !== 'cash'" label="使用门槛">
